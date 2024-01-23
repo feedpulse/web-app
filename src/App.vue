@@ -1,8 +1,11 @@
-<script setup lang="ts">
-import { RouterView } from 'vue-router'
+<script lang="ts" setup>
+import {RouterView} from 'vue-router'
+import router from "@/router";
 </script>
 
 <template>
-  <RouterView />
+    <component :is="router.currentRoute.value.meta.layout || 'div'">
+        <RouterView/>
+    </component>
 </template>
 
