@@ -1,8 +1,9 @@
 import axios from "axios";
 import type {AxiosResponse} from "axios";
+import type Entry from "@/models/Entry";
 
 const httpClient = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     headers: {
         "Content-Type": "application/json",
     },
@@ -93,9 +94,24 @@ const addFeed = (bearer: string, feedUrl: string): Promise<AxiosResponse<Feed>> 
     });
 }
 
+/**
+ * Removes a feed from the system.
+ *
+ * @async
+ * @param {string} bearer - The bearer token for authorization.
+ * @param {string} uuid - The UUID of the feed to be removed.
+ * @returns {Promise} A promise that resolves to the Axios response object.
+ */
+const removeFeed = (bearer: string, uuid: string): Promise<AxiosResponse> => {
+    return httpClient.delete(`/feeds/${uuid}`, {
+        headers: getAuthHeaders(bearer),
+    });
+}
+
 export const FeedAPI = {
     getFeeds,
     getFeed,
     getFeedEntries,
     addFeed,
+    removeFeed,
 }

@@ -3,7 +3,7 @@ import type {AxiosResponse} from "axios";
 import type Entry from "@/models/Entry";
 
 const httpClient = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     headers: {
         "Content-Type": "application/json",
     },
