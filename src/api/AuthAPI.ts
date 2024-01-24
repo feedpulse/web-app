@@ -1,5 +1,6 @@
 import axios from "axios";
 import type {AxiosResponse} from "axios";
+import type User from "@/models/User";
 
 const httpClient = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,

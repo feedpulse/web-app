@@ -4,6 +4,7 @@ import {ref, watch} from "vue";
 import {useAuthStore} from "@/stores/useAuthStore";
 import {UserAPI} from "@/api/UserAPI";
 import {useUnauthorizedErrorStore} from "@/stores/useUnauthorizedErrorStore";
+import type User from "@/models/User";
 
 export const useUserStore = defineStore('userStore', () => {
     const authStore = useAuthStore()

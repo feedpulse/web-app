@@ -6,7 +6,9 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Button from 'primevue/button';
 
+// @ts-ignore
 import PhKeyDuotone from '~icons/ph/key-duotone'
+// @ts-ignore
 import PhEnvelopeDuotone from '~icons/ph/envelope-duotone'
 
 import {ref} from 'vue'

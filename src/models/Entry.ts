@@ -1,3 +1,5 @@
+import type Feed from "@/models/Feed";
+import type Keyword from "@/models/Keyword";
 
 export default interface Entry {
     uuid: string;

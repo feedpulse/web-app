@@ -6,6 +6,7 @@ import {FeedAPI} from "@/api/FeedAPI";
 import {EntryAPI} from "@/api/EntryAPI";
 import {useUnauthorizedErrorStore} from "@/stores/useUnauthorizedErrorStore";
 import type Entry from "@/models/Entry";
+import type Feed from "@/models/Feed";
 
 export const useEntryStore = defineStore('entryStore', () => {
     const authStore = useAuthStore()

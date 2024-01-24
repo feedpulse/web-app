@@ -3,8 +3,11 @@
 import Button from "primevue/button";
 import Card from "primevue/card";
 
+// @ts-ignore
 import PhStarDuotone from '~icons/ph/star-duotone'
+// @ts-ignore
 import PhBookmarkSimpleDuotone from '~icons/ph/bookmark-simple-duotone'
+// @ts-ignore
 import PhReadCvLogoDuotone from '~icons/ph/read-cv-logo-duotone'
 
 import type Entry from "@/models/Entry";

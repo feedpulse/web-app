@@ -1,4 +1,7 @@
-interface Feed {
+import type Entry from "@/models/Entry";
+import type User from "@/models/User";
+
+export default interface Feed {
     uuid: string;
     feedUrl: string;
     entries?: Entry[]; // Entry needs to be defined

@@ -4,6 +4,7 @@ import {FeedAPI} from "@/api/FeedAPI";
 import {useAuthStore} from "@/stores/useAuthStore";
 import {useUnauthorizedErrorStore} from "@/stores/useUnauthorizedErrorStore";
 import {until} from "@vueuse/core";
+import type Feed from "@/models/Feed";
 
 export const useFeedStore = defineStore('feedStore', () => {
     const authStore = useAuthStore()

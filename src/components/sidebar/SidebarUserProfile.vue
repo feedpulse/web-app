@@ -4,7 +4,9 @@ import {useUserStore} from "@/stores/useUserStore";
 import {computed} from "vue";
 import {storeToRefs} from "pinia";
 
+// @ts-ignore
 import PhUserCircleDuotone from '~icons/ph/user-circle-duotone'
+// @ts-ignore
 import PhUserCircleMinusDuotone from '~icons/ph/user-circle-minus-duotone'
 
 const authStore =  useAuthStore()

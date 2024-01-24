@@ -6,18 +6,27 @@ import SidebarUserProfile from "@/components/sidebar/SidebarUserProfile.vue";
 
 import Divider from 'primevue/divider';
 
+// @ts-ignore
 import PhGearDuotone from '~icons/ph/gear-duotone'
+// @ts-ignore
 import PhQuestionDuotone from '~icons/ph/question-duotone'
+// @ts-ignore
 import PhBuildingsDuotone from '~icons/ph/buildings-duotone'
+// @ts-ignore
 import PhPlusCircleDuotone from '~icons/ph/plus-circle-duotone'
+// @ts-ignore
 import PhStarDuotone from '~icons/ph/star-duotone'
+// @ts-ignore
 import PhBookmarkSimpleDuotone from '~icons/ph/bookmark-simple-duotone'
+// @ts-ignore
 import PhNotebookDuotone from '~icons/ph/notebook-duotone'
+
 
 import {useFeedStore} from "@/stores/useFeedStore"
 import {storeToRefs} from "pinia";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import AddFeedDialog from "@/components/dialogs/AddFeedDialog.vue";
+import type Feed from "@/models/Feed";
 
 const feedStore = useFeedStore()
 onMounted(() => {
@@ -38,7 +47,7 @@ const footerLinks = [{
 }
 ]
 
-function addFeed(){
+function addFeed() {
     // open modal to add feed
     feedStore.isAddFeedDialogOpen = true
 }
@@ -52,9 +61,9 @@ function addFeed(){
                 <h2 class="text-primary-500 font-semibold text-xl">Logo</h2>
             </div>
             <div class="pt-6">
-                <SidebarMenuItem to="/all" label="All" :icon="PhNotebookDuotone"/>
-                <SidebarMenuItem to="/favourites" label="Favourite" :icon="PhStarDuotone"/>
-                <SidebarMenuItem to="/bookmarks" label="Bookmarks" :icon="PhBookmarkSimpleDuotone"/>
+                <SidebarMenuItem :icon="PhNotebookDuotone" label="All" to="/all"/>
+                <SidebarMenuItem :icon="PhStarDuotone" label="Favourite" to="/favourites"/>
+                <SidebarMenuItem :icon="PhBookmarkSimpleDuotone" label="Bookmarks" to="/bookmarks"/>
             </div>
 
             <div class="grow flex flex-col text-white justify-center m-2">
