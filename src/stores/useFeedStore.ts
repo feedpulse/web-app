@@ -48,11 +48,24 @@ export const useFeedStore = defineStore('feedStore', () => {
         })
     }
 
+    const removeFeed = (feedId: string) => {
+        if (expiration.value < 0) return
+        FeedAPI.removeFeed(tokenString.value!, feedId).then((response) => {
+            feeds.value = feeds.value.filter((feed) => feed.uuid !== feedId)
+        }).catch((error) => {
+            unauthStore.checkIfUnauthorizedError(error)
+            console.error(error)
+        }).finally(() => {
+            getFeeds()
+        })
+    }
+
     return {
         feeds,
         selectedFeed,
         getFeeds,
         addFeed,
+        removeFeed,
         setSelectedFeed,
         isAddFeedDialogOpen,
     }

@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 
+import ContextMenu from 'primevue/contextmenu';
+
 import SidebarMenuItem from "@/components/sidebar/SidebarMenuItem.vue";
 import SidebarFeedItem from "@/components/sidebar/SidebarFeedItem.vue";
 import SidebarUserProfile from "@/components/sidebar/SidebarUserProfile.vue";
@@ -52,6 +54,23 @@ function addFeed() {
     feedStore.isAddFeedDialogOpen = true
 }
 
+const rightClickedFeed = ref<Feed>();
+const menu = ref();
+const items = ref([
+    {
+        label: 'Remove',
+        icon: 'pi pi-copy',
+        command: ($event: any) => {
+            feedStore.removeFeed(rightClickedFeed.value!.uuid)
+        }
+    },
+]);
+
+const onImageRightClick = (event: any, feed: Feed) => {
+    rightClickedFeed.value = feed;
+    menu.value.show(event);
+};
+
 </script>
 
 <template>
@@ -68,16 +87,19 @@ function addFeed() {
 
             <div class="grow flex flex-col text-white justify-center m-2">
                 <span>Feeds</span>
-                <SidebarFeedItem :to="`/feed/${feed.uuid}`" v-for="feed in feeds" :name="feed.title" :key="feed.uuid"/>
-                <Divider />
-                <div @click="addFeed" class="cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-1.5 m-1 rounded-md space-x-2">
-                    <PhPlusCircleDuotone />
+                <SidebarFeedItem v-for="feed in feeds" :key="feed.uuid" :name="feed.title" :to="`/feed/${feed.uuid}`"
+                                 @contextmenu="onImageRightClick($event, feed)"/>
+                <ContextMenu ref="menu" :model="items"/>
+                <Divider/>
+                <div class="cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-1.5 m-1 rounded-md space-x-2"
+                     @click="addFeed">
+                    <PhPlusCircleDuotone/>
                     <span>An Feed</span>
                     <AddFeedDialog/>
                 </div>
             </div>
             <div>
-                <SidebarMenuItem v-for="foot in footerLinks" :icon="foot.icon" :label="foot.name"/>
+                <SidebarMenuItem v-for="foot in footerLinks" :key="foot.name" :icon="foot.icon" :label="foot.name"/>
                 <SidebarUserProfile/>
             </div>
         </aside>
