@@ -22,7 +22,7 @@ export const useEntryStore = defineStore('entryStore', () => {
             return
         }
         FeedAPI.getFeedEntries(tokenString.value, feed.uuid).then((response) => {
-            entries.value = response.data
+            entries.value = response.data.content
         }).catch((error) => {
             unauthStore.checkIfUnauthorizedError(error)
             console.error(error)
@@ -42,12 +42,30 @@ export const useEntryStore = defineStore('entryStore', () => {
             return
         }
         EntryAPI.getEntries(tokenString.value).then((response) => {
-            entries.value = response.data
+            entries.value = response.data.content
         }).catch((error) => {
             unauthStore.checkIfUnauthorizedError(error)
             console.error(error)
             entries.value = []
         })
+    }
+
+    const loadMoreEntriesBool = ref(false)
+    const loadMoreEntries = () => {
+        if (entries.value.length === 0) return; // No entries to load
+        if (loadMoreEntriesBool.value) return; // Already loading entries
+        if (expiration.value < 0 || tokenString.value == null) {
+            entries.value = []
+            return
+        }
+        loadMoreEntriesBool.value = true
+        EntryAPI.getEntries(tokenString.value, 50, entries.value.length).then((response) => {
+            entries.value.push(...response.data.content)
+        }).catch((error) => {
+            unauthStore.checkIfUnauthorizedError(error)
+            console.error(error)
+            entries.value = []
+        }).finally(() => loadMoreEntriesBool.value = false)
     }
 
     const markEntryAsRead = (entry: Entry) => {
@@ -113,7 +131,7 @@ export const useEntryStore = defineStore('entryStore', () => {
             return
         }
         EntryAPI.getFavoriteEntries(tokenString.value).then((response) => {
-            entries.value = response.data
+            entries.value = response.data.content
         }).catch((error) => {
             unauthStore.checkIfUnauthorizedError(error)
             console.error(error)
@@ -127,7 +145,7 @@ export const useEntryStore = defineStore('entryStore', () => {
             return
         }
         EntryAPI.getBookmarkedEntries(tokenString.value).then((response) => {
-            entries.value = response.data
+            entries.value = response.data.content
         }).catch((error) => {
             unauthStore.checkIfUnauthorizedError(error)
             console.error(error)
@@ -140,6 +158,7 @@ export const useEntryStore = defineStore('entryStore', () => {
         getEntries,
         getEntriesForFeed,
         getEntriesForCurrentFeed,
+        loadMoreEntries,
         markEntryAsRead,
         markEntryAsFav,
         markEntryAsBookmarked,

@@ -2,6 +2,7 @@ import axios from "axios";
 import type {AxiosResponse} from "axios";
 import type Entry from "@/models/Entry";
 import type Feed from "@/models/Feed";
+import type PageableResponse from "@/models/PageableResponse";
 
 const httpClient = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -29,14 +30,14 @@ const getAuthHeaders = (token: string) => {
  * @param {number} [limit=20] - The maximum number of feeds to retrieve (default: 20).
  * @param {number} [offset=0] - The offset from which to start retrieving feeds (default: 0).
  * @param {boolean} [sortOrder=false] - The sort order of the feeds (default: false).
- * @returns {Promise<AxiosResponse<Feed[]>>} - A Promise that resolves to the response from the server containing an array of feeds.
+ * @returns {Promise<AxiosResponse<PageableResponse<Feed>>>} - A Promise that resolves to the response from the server containing an array of feeds.
  */
-const getFeeds = (bearer: string, limit: number = 20, offset: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<Feed[]>> => {
-    return httpClient.get<Feed[]>("/feeds", {
+const getFeeds = (bearer: string, size: number = 20, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Feed>>> => {
+    return httpClient.get<PageableResponse<Feed>>("/feeds", {
         headers: getAuthHeaders(bearer),
         params: {
-            "limit": limit,
-            "offset": offset,
+            "size": size,
+            "page": page,
             "sortOrder": sortOrder,
         }
     });
@@ -65,14 +66,14 @@ const getFeed = (bearer: string, uuid: string): Promise<AxiosResponse<Feed>> => 
  * @param {number} [limit=20] - The maximum number of entries to retrieve. Defaults to 20.
  * @param {number} [offset=0] - The number of entries to skip before retrieving. Defaults to 0.
  * @param {boolean} [sortOrder=false] - The sorting order of the entries. Defaults to false which is ascending order.
- * @returns {Promise<AxiosResponse<Entry[]>>} - A promise that resolves with the Axios response containing the array of entries.
+ * @returns {Promise<AxiosResponse<PageableResponse<Entry>>>} - A promise that resolves with the Axios response containing the array of entries.
  */
-const getFeedEntries = (bearer: string, uuid: string, limit: number = 20, offset: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<Entry[]>> => {
-    return httpClient.get<Entry[]>(`/feeds/${uuid}/entries`, {
+const getFeedEntries = (bearer: string, uuid: string, size: number = 20, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
+    return httpClient.get<PageableResponse<Entry>>(`/feeds/${uuid}/entries`, {
         headers: getAuthHeaders(bearer),
         params: {
-            "limit": limit,
-            "offset": offset,
+            "size": size,
+            "page": page,
             "sortOrder": sortOrder,
         }
     });

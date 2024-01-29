@@ -1,6 +1,7 @@
 import axios from "axios";
 import type {AxiosResponse} from "axios";
 import type Entry from "@/models/Entry";
+import type PageableResponse from "@/models/PageableResponse";
 
 const httpClient = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -29,12 +30,12 @@ const getAuthHeaders = (token: string) => {
  * @param {boolean} [sortOrder=false] - The order in which the entries should be sorted. Defaults to false (ascending order).
  * @returns {Promise<AxiosResponse<Entry[]>>} - A promise that resolves to the HTTP response containing the list of entries.
  */
-const getEntries = (bearer: string, limit: number = 50, offset: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<Entry[]>> => {
-    return httpClient.get<Entry[]>("/entries", {
+const getEntries = (bearer: string, size: number = 50, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
+    return httpClient.get<PageableResponse<Entry>>("/entries", {
         headers: getAuthHeaders(bearer),
         params: {
-            "limit": limit,
-            "offset": offset,
+            "size": size,
+            "page": page,
             "sortOrder": sortOrder,
         }
     });
@@ -75,23 +76,23 @@ const updateEntry = (bearer: string, uuid: string, read: (boolean|null), favorit
     });
 }
 
-const getFavoriteEntries = (bearer: string, limit: number = 50, offset: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<Entry[]>> => {
-    return httpClient.get<Entry[]>("/entries/favorites", {
+const getFavoriteEntries = (bearer: string, size: number = 50, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
+    return httpClient.get<PageableResponse<Entry>>("/entries/favorites", {
         headers: getAuthHeaders(bearer),
         params: {
-            "limit": limit,
-            "offset": offset,
+            "size": size,
+            "page": page,
             "sortOrder": sortOrder,
         }
     });
 }
 
-const getBookmarkedEntries = (bearer: string, limit: number = 50, offset: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<Entry[]>> => {
-    return httpClient.get<Entry[]>("/entries/bookmarks", {
+const getBookmarkedEntries = (bearer: string, size: number = 50, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
+    return httpClient.get<PageableResponse<Entry>>("/entries/bookmarks", {
         headers: getAuthHeaders(bearer),
         params: {
-            "limit": limit,
-            "offset": offset,
+            "size": size,
+            "page": page,
             "sortOrder": sortOrder,
         }
     });

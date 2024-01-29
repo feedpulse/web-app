@@ -21,7 +21,7 @@ export const useFeedStore = defineStore('feedStore', () => {
     const getFeeds = () => {
         if (expiration.value < 0) return
         FeedAPI.getFeeds(tokenString.value!).then((response) => {
-            feeds.value = response.data
+            feeds.value = response.data.content
         }).catch((error) => {
             unauthStore.checkIfUnauthorizedError(error)
             console.error(error)
@@ -50,7 +50,7 @@ export const useFeedStore = defineStore('feedStore', () => {
 
     const removeFeed = (feedId: string) => {
         if (expiration.value < 0) return
-        FeedAPI.removeFeed(tokenString.value!, feedId).then((response) => {
+        FeedAPI.removeFeed(tokenString.value!, feedId).then(() => {
             feeds.value = feeds.value.filter((feed) => feed.uuid !== feedId)
         }).catch((error) => {
             unauthStore.checkIfUnauthorizedError(error)
