@@ -22,6 +22,10 @@ class EntryAPI extends APIBase {
         });
     }
 
+    public getEntriesByUrl = (url: string): Promise<AxiosResponse<PageableResponse<Entry>>> => {
+        return this.httpClient.get<PageableResponse<Entry>>(url);
+    }
+
     /**
      * Retrieves a specific entry using the given UUID.
      *
