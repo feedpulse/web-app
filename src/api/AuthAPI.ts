@@ -1,39 +1,32 @@
-import axios from "axios";
 import type {AxiosResponse} from "axios";
 import type User from "@/models/User";
+import APIBase from "@/api/APIBase";
+import type Jwt from "@/models/Jwt";
 
-const httpClient = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+class AuthAPI extends APIBase {
 
-const createUserPayload = (email: string, password: string) => ({"email": email, "password": password});
+    #createUserPayload = (email: string, password: string) => ({"email": email, "password": password});
 
-/**
- * Executes a login request to the server.
- * @param email - The user's email.
- * @param password - The user's password.
- * @returns Promise<AxiosResponse<string>> - A promise that resolves into a string.
- */
-const login = (email: string, password: string): Promise<AxiosResponse<string>> => {
-    const payload = createUserPayload(email, password);
-    return httpClient.post<string>("/auth/login", payload);
-};
+    /**
+     * Executes a login request to the server.
+     * @param email - The user's email.
+     * @param password - The user's password.
+     * @returns Promise<AxiosResponse<string>> - A promise that resolves into a string.
+     */
+    public login = (email: string, password: string): Promise<AxiosResponse<Jwt>> => {
+        const payload = this.#createUserPayload(email, password);
+        return this.httpClient.post<Jwt>("/auth/login", payload);
+    };
 
-/**
- * Executes a register request to the server.
- * @param email - The user's email.
- * @param password - The user's password.
- * @returns Promise<AxiosResponse<User>> - A promise that resolves into a User.
- */
-const register = (email: string, password: string): Promise<AxiosResponse<User>> => {
-    const payload = createUserPayload(email, password);
-    return httpClient.post<User>("/auth/register", payload);
-};
-
-export const AuthAPI = {
-    login,
-    register,
+    /**
+     * Executes a register request to the server.
+     * @param email - The user's email.
+     * @param password - The user's password.
+     * @returns Promise<AxiosResponse<User>> - A promise that resolves into a User.
+     */
+    public register = (email: string, password: string): Promise<AxiosResponse<User>> => {
+        const payload = this.#createUserPayload(email, password);
+        return this.httpClient.post<User>("/auth/register", payload);
+    };
 }
+export default new AuthAPI();

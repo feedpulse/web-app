@@ -2,32 +2,20 @@ import {defineStore, storeToRefs} from "pinia";
 import {useAuthStore} from "@/stores/useAuthStore";
 import {ref} from "vue";
 import {useFeedStore} from "@/stores/useFeedStore";
-import {FeedAPI} from "@/api/FeedAPI";
-import {EntryAPI} from "@/api/EntryAPI";
-import {useUnauthorizedErrorStore} from "@/stores/useUnauthorizedErrorStore";
 import type Entry from "@/models/Entry";
 import type Feed from "@/models/Feed";
+import ApiService from "@/services/apiService";
 
 export const useEntryStore = defineStore('entryStore', () => {
     const authStore = useAuthStore()
-    const {tokenString, expiration} = storeToRefs(authStore)
+    const {expiration} = storeToRefs(authStore)
     const feedStore = useFeedStore()
-    const unauthStore = useUnauthorizedErrorStore()
     const entries = ref<Entry[]>([])
 
     const getEntriesForFeed = (feed: Feed) => {
-        console.log("Getting entries")
-        if (expiration.value < 0 || tokenString.value == null) {
-            entries.value = []
-            return
-        }
-        FeedAPI.getFeedEntries(tokenString.value, feed.uuid).then((response) => {
+        ApiService.FeedAPI.getFeedEntries(feed.uuid).then((response) => {
             entries.value = response.data.content
-        }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
-            entries.value = []
-        })
+        }).catch(() => entries.value = [])
     }
 
     const getEntriesForCurrentFeed = () => {
@@ -37,118 +25,82 @@ export const useEntryStore = defineStore('entryStore', () => {
     }
 
     const getEntries = () => {
-        if (expiration.value < 0 || tokenString.value == null) {
-            entries.value = []
-            return
-        }
-        EntryAPI.getEntries(tokenString.value).then((response) => {
+        ApiService.EntryAPI.getEntries().then((response) => {
             entries.value = response.data.content
-        }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
-            entries.value = []
-        })
+        }).catch(() => entries.value = [])
     }
 
     const loadMoreEntriesBool = ref(false)
     const loadMoreEntries = () => {
         if (entries.value.length === 0) return; // No entries to load
         if (loadMoreEntriesBool.value) return; // Already loading entries
-        if (expiration.value < 0 || tokenString.value == null) {
-            entries.value = []
-            return
-        }
         loadMoreEntriesBool.value = true
-        EntryAPI.getEntries(tokenString.value, 50, entries.value.length).then((response) => {
+        ApiService.EntryAPI.getEntries(50, entries.value.length).then((response) => {
             entries.value.push(...response.data.content)
         }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
             entries.value = []
         }).finally(() => loadMoreEntriesBool.value = false)
     }
 
     const markEntryAsRead = (entry: Entry) => {
-        EntryAPI.updateEntry(
-            tokenString.value!,
+        ApiService.EntryAPI.updateEntry(
             entry.uuid,
             !entry.read ?? false,
             null,
             null)
-        .then((response) => {
-            console.log(response.data)
-            EntryAPI.getEntry(tokenString.value!, entry.uuid).then((response) => {
-                const index = entries.value.findIndex((e) => e.uuid === entry.uuid)
-                entries.value[index] = response.data
-            });
-        }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
+            .then((response) => {
+                console.log(response.data)
+                ApiService.EntryAPI.getEntry(entry.uuid).then((response) => {
+                    const index = entries.value.findIndex((e) => e.uuid === entry.uuid)
+                    entries.value[index] = response.data
+                });
+            }).catch((error) => {
+
         })
     };
 
     const markEntryAsFav = (entry: Entry) => {
-        EntryAPI.updateEntry(
-            tokenString.value!,
+        ApiService.EntryAPI.updateEntry(
             entry.uuid,
             null,
             !entry.favorite ?? false,
             null)
-        .then((response) => {
-            console.log(response.data)
-            EntryAPI.getEntry(tokenString.value!, entry.uuid).then((response) => {
-                const index = entries.value.findIndex((e) => e.uuid === entry.uuid)
-                entries.value[index] = response.data
-            });
-        }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
-        })
+            .then((response) => {
+                console.log(response.data)
+                ApiService.EntryAPI.getEntry(entry.uuid).then((response) => {
+                    const index = entries.value.findIndex((e) => e.uuid === entry.uuid)
+                    entries.value[index] = response.data
+                });
+            }).catch((error) => {})
     };
 
     const markEntryAsBookmarked = (entry: Entry) => {
-        EntryAPI.updateEntry(
-            tokenString.value!,
+        ApiService.EntryAPI.updateEntry(
             entry.uuid,
             null,
             null,
             !entry.bookmark ?? false)
-        .then((response) => {
-            console.log(response.data)
-            EntryAPI.getEntry(tokenString.value!, entry.uuid).then((response) => {
-                const index = entries.value.findIndex((e) => e.uuid === entry.uuid)
-                entries.value[index] = response.data
-            });
-        }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
-        })
+            .then((response) => {
+                console.log(response.data)
+                ApiService.EntryAPI.getEntry(entry.uuid).then((response) => {
+                    const index = entries.value.findIndex((e) => e.uuid === entry.uuid)
+                    entries.value[index] = response.data
+                });
+            }).catch((error) => {})
     };
 
     const getFavoriteEntries = () => {
-        if (expiration.value < 0 || tokenString.value == null) {
-            entries.value = []
-            return
-        }
-        EntryAPI.getFavoriteEntries(tokenString.value).then((response) => {
+        ApiService.EntryAPI.getFavoriteEntries().then((response) => {
             entries.value = response.data.content
         }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
             entries.value = []
         })
     }
 
     const getBookmarkedEntries = () => {
-        if (expiration.value < 0 || tokenString.value == null) {
-            entries.value = []
-            return
-        }
-        EntryAPI.getBookmarkedEntries(tokenString.value).then((response) => {
+        ApiService.EntryAPI.getBookmarkedEntries().then((response) => {
             entries.value = response.data.content
         }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
             entries.value = []
         })
     }

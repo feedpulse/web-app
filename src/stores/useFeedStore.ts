@@ -1,30 +1,25 @@
 import {defineStore, storeToRefs} from "pinia";
 import {ref} from "vue";
-import {FeedAPI} from "@/api/FeedAPI";
 import {useAuthStore} from "@/stores/useAuthStore";
-import {useUnauthorizedErrorStore} from "@/stores/useUnauthorizedErrorStore";
 import {until} from "@vueuse/core";
 import type Feed from "@/models/Feed";
+import apiService from "@/services/apiService";
 
 export const useFeedStore = defineStore('feedStore', () => {
     const authStore = useAuthStore()
-    const {tokenString, expiration} = storeToRefs(authStore)
+    const {isLoggedIn} = storeToRefs(authStore)
 
     const feeds = ref<Feed[]>([])
 
     const isAddFeedDialogOpen = ref<boolean>(false)
     const selectedFeed = ref<Feed | null>(null)
 
-    const unauthStore = useUnauthorizedErrorStore()
 
 
     const getFeeds = () => {
-        if (expiration.value < 0) return
-        FeedAPI.getFeeds(tokenString.value!).then((response) => {
+        apiService.FeedAPI.getFeeds().then((response) => {
             feeds.value = response.data.content
         }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
             feeds.value = []
         })
     }
@@ -37,27 +32,18 @@ export const useFeedStore = defineStore('feedStore', () => {
 
     const addFeed = (feedUrl: string) => {
         isAddFeedDialogOpen.value = false
-        if (expiration.value < 0) return
-        FeedAPI.addFeed(tokenString.value!, feedUrl).then((response) => {
+        apiService.FeedAPI.addFeed(feedUrl).then((response) => {
             feeds.value.push(response.data)
-        }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
-        }).finally(() => {
             getFeeds()
-        })
+        }).catch((error) => {})
+
     }
 
     const removeFeed = (feedId: string) => {
-        if (expiration.value < 0) return
-        FeedAPI.removeFeed(tokenString.value!, feedId).then(() => {
+        apiService.FeedAPI.removeFeed(feedId).then(() => {
             feeds.value = feeds.value.filter((feed) => feed.uuid !== feedId)
-        }).catch((error) => {
-            unauthStore.checkIfUnauthorizedError(error)
-            console.error(error)
-        }).finally(() => {
             getFeeds()
-        })
+        }).catch((error) => {})
     }
 
     return {

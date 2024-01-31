@@ -1,46 +1,46 @@
 import {defineStore} from "pinia";
-import {computed, type ComputedRef, readonly} from "vue";
-import {AuthAPI} from "@/api/AuthAPI";
-import {useSessionStorage} from '@vueuse/core'
+import {computed, type ComputedRef, ref} from "vue";
+import {useNow, useSessionStorage, useTimestamp} from '@vueuse/core'
 import jwtDecode, {type JwtPayload} from "jwt-decode";
+import ApiService from "@/services/apiService";
 
 export const useAuthStore = defineStore('authStore', () => {
-    const _tokenString = useSessionStorage<string | null>('token', null)
-    const tokenString = readonly(_tokenString)
+    const unauthorized = ref(true)
+    ApiService.setUnauthorizedCallback(() => unauthorized.value = true)
+
+    const tokenString = useSessionStorage<string | null>('token', null)
+    if (tokenString.value != null) {
+        ApiService.setBearer(tokenString.value)
+    }
+
     const token: ComputedRef<JwtPayload | null> = computed(() => {
         try {
-             // Returns with the JwtPayload type
-            const decoded = jwtDecode<JwtPayload>(_tokenString.value ?? "")
-            removeTokenAtExpiration((decoded.exp! - decoded.iat!) * 1000)
-            return decoded
+            console.log(tokenString.value)
+            // Returns with the JwtPayload type
+            return jwtDecode<JwtPayload>(tokenString.value ?? "")
         } catch (e) {
             return null
         }
     })
     const expiration: ComputedRef<number> = computed(() => token?.value?.exp ?? -1)
-    const isLoggedIn: ComputedRef<boolean> = computed(() => expiration.value > 0) //todo
+    const isLoggedIn: boolean = expiration.value > Math.floor(Date.now() / 1000)
+
 
     const loginUser = async (email: string, password: string) => {
-        AuthAPI.login(email, password).then((response) => {
-            _tokenString.value = response.data
-        }).catch((error) => {
-            console.error(error)
-            _tokenString.value = null
-        })
-    }
-
-    const removeTokenAtExpiration = (time: number) => {
-        setTimeout(() => {
-            _tokenString.value = null
-        }, time)
+        ApiService.AuthAPI.login(email, password).then((response) => {
+            unauthorized.value = false
+            tokenString.value = response.data.token
+            ApiService.setBearer(tokenString.value)
+        }).catch(() => logout())
     }
 
     const logout = () => {
-        _tokenString.value = null
+        unauthorized.value = true
+        tokenString.value = null
+        ApiService.setBearer(null)
     }
 
     return {
-        tokenString,
         expiration,
         isLoggedIn,
         token,
