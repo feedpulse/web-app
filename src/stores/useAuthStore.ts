@@ -41,6 +41,7 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     return {
+        unauthorized,
         expiration,
         isLoggedIn,
         token,
