@@ -48,7 +48,7 @@ class ApiService {
             }
             return response;
         }, (error) => {
-            if (!error.status) {
+            if (!error.status && !error.response) {
                 // Network error.
                 if (this.networkErrorCallback) {
                     this.networkErrorCallback();
