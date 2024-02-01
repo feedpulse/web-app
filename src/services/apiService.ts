@@ -8,6 +8,8 @@ class ApiService {
 
     private bearer: (string | null) = null;
     private unauthorizedCallback: (() => void) | null = null;
+    private unauthenticatedCallback: (() => void) | null = null;
+    private networkErrorCallback: (() => void) | null = null;
 
     public EntryAPI = EntryAPI
     public UserAPI = UserAPI
@@ -23,12 +25,15 @@ class ApiService {
 
     private addInterceptor(httpClient: AxiosInstance) {
         httpClient.interceptors.request.use((config) => {
+            console.log(config)
             if (this.bearer) {
                 // Add the bearer token to the request headers.
                 config.headers["Authorization"] = `Bearer ${this.bearer}`;
             }
             return config;
         }, (error) => {
+            alert("An error occurred while sending the request.")
+            console.log(error)
             return Promise.reject(error);
         });
 
@@ -43,11 +48,20 @@ class ApiService {
             }
             return response;
         }, (error) => {
-            if (error.response.status === 401) {
+            if (!error.status) {
+                // Network error.
+                if (this.networkErrorCallback) {
+                    this.networkErrorCallback();
+                }
+            } else if (error.response.status === 401) {
+                if (this.unauthenticatedCallback) {
+                    this.unauthenticatedCallback();
+                }
+                this.setBearer(null);
+            } else if (error.response.status === 403) {
                 if (this.unauthorizedCallback) {
                     this.unauthorizedCallback();
                 }
-                this.setBearer(null);
             }
             console.log(error);
             return Promise.reject(error);
@@ -55,7 +69,7 @@ class ApiService {
     }
 
 
-    setBearer(bearer: (string|null)) {
+    setBearer(bearer: (string | null)) {
         this.bearer = bearer;
     }
 
@@ -65,6 +79,14 @@ class ApiService {
 
     setUnauthorizedCallback(callback: () => void) {
         this.unauthorizedCallback = callback;
+    }
+
+    setUnauthenticatedCallback(callback: () => void) {
+        this.unauthenticatedCallback = callback;
+    }
+
+    setNetworkErrorCallback(callback: () => void) {
+        this.networkErrorCallback = callback;
     }
 }
 

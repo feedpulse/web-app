@@ -3,10 +3,14 @@ import {computed, type ComputedRef, ref} from "vue";
 import {useNow, useSessionStorage, useTimestamp} from '@vueuse/core'
 import jwtDecode, {type JwtPayload} from "jwt-decode";
 import ApiService from "@/services/apiService";
+import {useToast} from "primevue/usetoast";
 
 export const useAuthStore = defineStore('authStore', () => {
+    const toast = useToast()
     const unauthorized = ref(true)
-    ApiService.setUnauthorizedCallback(() => unauthorized.value = true)
+    ApiService.setUnauthenticatedCallback(() => unauthorized.value = true)
+    ApiService.setUnauthorizedCallback(() => toast.add({severity: 'error', summary: 'Unauthorized', detail: 'You are not authorized to perform this action.', life: 3000}))
+    ApiService.setNetworkErrorCallback(() => toast.add({severity: 'error', summary: 'Network Error', detail: 'An error occurred while sending the request.', life: 3000}))
 
     const tokenString = useSessionStorage<string | null>('token', null)
     if (tokenString.value != null) {
