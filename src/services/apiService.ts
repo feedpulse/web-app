@@ -39,7 +39,8 @@ class ApiService {
 
         // Add a response interceptor to the HTTP client to handle unauthorized errors.
         httpClient.interceptors.response.use((response) => {
-            const token = response.headers["Authorization"];
+            // axios converts all headers to lowercase
+            const token = response.headers["authorization"];
             if (token) {
                 const tokenParts = token.split(" ");
                 if (tokenParts.length === 2) {

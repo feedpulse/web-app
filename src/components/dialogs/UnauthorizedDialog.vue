@@ -7,8 +7,8 @@ import {useAuthStore} from "@/stores/useAuthStore";
 import {storeToRefs} from "pinia";
 
 const visible = ref(false);
-const {unauthorized} = storeToRefs(useAuthStore())
-watch(unauthorized, (newVal, oldVal) => {
+const {unauthenticated} = storeToRefs(useAuthStore())
+watch(unauthenticated, (newVal, oldVal) => {
     visible.value = (newVal !== oldVal && newVal);
 })
 

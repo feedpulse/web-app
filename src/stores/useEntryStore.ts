@@ -8,8 +8,6 @@ import ApiService from "@/services/apiService";
 import type PageableResponse from "@/models/PageableResponse";
 
 export const useEntryStore = defineStore('entryStore', () => {
-    const authStore = useAuthStore()
-    const {expiration} = storeToRefs(authStore)
     const feedStore = useFeedStore()
     const entries = ref<Entry[]>([])
     const pageable = ref<PageableResponse<Entry>|undefined>(undefined) // should this be propagated to the store or stay in the service layer?

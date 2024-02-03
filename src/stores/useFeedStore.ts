@@ -6,8 +6,6 @@ import type Feed from "@/models/Feed";
 import apiService from "@/services/apiService";
 
 export const useFeedStore = defineStore('feedStore', () => {
-    const authStore = useAuthStore()
-    const {isLoggedIn} = storeToRefs(authStore)
 
     const feeds = ref<Feed[]>([])
 
