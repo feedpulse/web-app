@@ -9,6 +9,7 @@ class ApiService {
     private bearer: (string | null) = null;
     private unauthorizedCallback: (() => void) | null = null;
     private unauthenticatedCallback: (() => void) | null = null;
+    private tooManyRequestsCallback: (() => void) | null = null;
     private networkErrorCallback: (() => void) | null = null;
 
     public EntryAPI = EntryAPI
@@ -63,6 +64,10 @@ class ApiService {
                 if (this.unauthorizedCallback) {
                     this.unauthorizedCallback();
                 }
+            } else if (error.response.status === 429) {
+                if (this.tooManyRequestsCallback) {
+                    this.tooManyRequestsCallback();
+                }
             }
             console.log(error);
             return Promise.reject(error);
@@ -84,6 +89,10 @@ class ApiService {
 
     setUnauthenticatedCallback(callback: () => void) {
         this.unauthenticatedCallback = callback;
+    }
+
+    setTooManyRequestsCallback(callback: () => void) {
+        this.tooManyRequestsCallback = callback;
     }
 
     setNetworkErrorCallback(callback: () => void) {

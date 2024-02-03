@@ -11,6 +11,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const errorMsg = ref('')
     ApiService.setUnauthenticatedCallback(() => unauthenticated.value = true)
     ApiService.setUnauthorizedCallback(() => toast.add({severity: 'error', summary: 'Unauthorized', detail: 'You are not authorized to perform this action.', life: 3000}))
+    ApiService.setTooManyRequestsCallback(() => toast.add({severity: 'error', summary: 'Too Many Requests', detail: 'You have made too many requests. Please wait a while before trying again.', life: 3000}))
     ApiService.setNetworkErrorCallback(() => toast.add({severity: 'error', summary: 'Network Error', detail: 'An error occurred while sending the request.', life: 3000}))
 
     const tokenString = useSessionStorage<string | null>('token', null)
