@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import {useRouter} from "vue-router";
+
 const props = defineProps({
     label: String,
     to: {
@@ -8,6 +10,11 @@ const props = defineProps({
     },
     icon: Object
 })
+
+const router = useRouter()
+const isCurrentRoute = () => {
+    return router.currentRoute.value.path === props.to
+}
 </script>
 
 <template>
@@ -15,7 +22,8 @@ const props = defineProps({
         <div v-if="to !== ''">
             <RouterLink :to="to" is="div" class="nav-link">
                 <div
-                    class="cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-2 m-2 rounded-md space-x-2">
+                    :class="{'border-primary-500 border-2': isCurrentRoute()}"
+                    class="duration-1500 cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-2 m-2 rounded-md space-x-2">
                     <component :is="icon" class="inline-block"/>
                     <span>{{ label }}</span>
                 </div>
