@@ -6,7 +6,7 @@ import Toast from "primevue/toast";
 
 <template>
     <component :is="router.currentRoute.value.meta.layout || 'div'">
-        <Toast />
+        <Toast/>
         <RouterView/>
     </component>
 </template>
