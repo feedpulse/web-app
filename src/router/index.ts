@@ -13,6 +13,8 @@ import FeedEntriesView from "@/views/FeedEntriesView.vue";
 import AllEntriesView from '../views/AllEntriesView.vue'
 import LoginView from "@/views/LoginView.vue";
 import AboutView from "@/views/AboutView.vue";
+import SettingsView from "@/views/SettingsView.vue";
+import InfoSettingsView from "@/views/settings/InfoSettingsView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,6 +74,26 @@ const router = createRouter({
             meta: {
                 layout: DefaultLayout,
             }
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: SettingsView,
+            meta: {
+                layout: DefaultLayout,
+                middleware: [authMiddleware]
+            },
+            children: [
+                {
+                    path: 'info',
+                    name: 'info-settings',
+                    component: InfoSettingsView,
+                    meta: {
+                        layout: DefaultLayout,
+                        middleware: [authMiddleware]
+                    }
+                }
+            ],
         },
         // {
         //     path: '/:pathMatch(.*)*',

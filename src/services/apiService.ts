@@ -3,6 +3,7 @@ import EntryAPI from "@/api/EntryAPI";
 import UserAPI from "@/api/UserAPI";
 import FeedAPI from "@/api/FeedAPI";
 import AuthAPI from "@/api/AuthAPI";
+import BackendGitMetaAPI from "@/api/BackendGitMetaAPI";
 
 class ApiService {
 
@@ -16,7 +17,8 @@ class ApiService {
     public UserAPI = UserAPI
     public FeedAPI = FeedAPI
     public AuthAPI = AuthAPI
-    private apiList = [EntryAPI, UserAPI, FeedAPI, AuthAPI]
+    public BackendGitMetaAPI = BackendGitMetaAPI
+    private apiList = [EntryAPI, UserAPI, FeedAPI, AuthAPI, BackendGitMetaAPI]
 
     constructor() {
         this.apiList.forEach((api) => {

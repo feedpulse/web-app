@@ -19,6 +19,8 @@ import {watchOnce} from "@vueuse/core";
 import {useUserStore} from "@/stores/useUserStore";
 import {storeToRefs} from "pinia";
 
+import {sha,version, buildTime} from "@/const/GitMetaProperties"
+
 const email = ref('')
 const password = ref('')
 
@@ -41,6 +43,13 @@ function handleLogin() {
 <template>
     <div
         class="h-screen w-screen justify-center items-center justify-items-center place-items-center flex flex-col gap-3">
+        <div class="absolute bottom-0 left-0 p-2">
+            <div class="text-surface-600 text-xs">
+                <span class="block">Version: {{version}}</span>
+                <span class="block">SHA: {{sha}}</span>
+                <span class="block">Build Time: {{buildTime}}</span>
+            </div>
+        </div>
         <InputGroup class="!w-fit">
             <InputGroupAddon>
                 <PhEnvelopeDuotone/>
