@@ -8,7 +8,7 @@ import UnauthorizedDialog from "@/components/dialogs/UnauthorizedDialog.vue";
     <div class="flex bg-surface-900">
         <UnauthorizedDialog/>
         <Sidebar />
-        <div class="ml-56 w-full">
+        <div class="ml-56 w-full h-screen">
             <slot/>
         </div>
     </div>

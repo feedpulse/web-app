@@ -115,6 +115,10 @@ export const useEntryStore = defineStore('entryStore', () => {
         })
     }
 
+    const clearEntries = () => {
+        entries.value = []
+    }
+
     return {
         entries,
         getEntries,
@@ -128,5 +132,6 @@ export const useEntryStore = defineStore('entryStore', () => {
         markEntryAsBookmarked,
         getFavoriteEntries,
         getBookmarkedEntries,
+        clearEntries
     }
 })
