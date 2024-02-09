@@ -12,7 +12,7 @@ import PhKeyDuotone from '~icons/ph/key-duotone'
 // @ts-ignore
 import PhEnvelopeDuotone from '~icons/ph/envelope-duotone'
 
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useAuthStore} from "@/stores/useAuthStore";
 import router from "@/router";
 import {watchOnce} from "@vueuse/core";
@@ -37,6 +37,13 @@ function handleLogin() {
         }
     })
 }
+
+onMounted(() => {
+    // if user is already logged in, redirect to home
+    if (authStore.isLoggedIn) {
+        router.push("/")
+    }
+})
 
 </script>
 
