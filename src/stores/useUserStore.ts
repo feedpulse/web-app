@@ -1,5 +1,5 @@
 import {defineStore, storeToRefs} from "pinia";
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 
 import {useAuthStore} from "@/stores/useAuthStore";
 import type User from "@/models/User";
@@ -33,8 +33,25 @@ export const useUserStore = defineStore('userStore', () => {
         getUser()
     }
 
+    const initials = computed(() => {
+        if (user.value) {
+            return user.value.email.charAt(0).toUpperCase()
+        }
+        return ''
+    })
+
+    const roles = computed(() => {
+        if (user.value) {
+            return user.value?.roles
+                ?.map(role => role.name.replace("ROLE_", "")) || []
+        }
+        return []
+    })
+
     return {
         user,
+        initials,
+        roles
     }
 
 

@@ -4,16 +4,9 @@ import ContextMenu from 'primevue/contextmenu';
 
 import SidebarMenuItem from "@/components/sidebar/SidebarMenuItem.vue";
 import SidebarFeedItem from "@/components/sidebar/SidebarFeedItem.vue";
-import SidebarUserProfile from "@/components/sidebar/SidebarUserProfile.vue";
 
 import Divider from 'primevue/divider';
 
-// @ts-ignore
-import PhGearDuotone from '~icons/ph/gear-duotone'
-// @ts-ignore
-import PhQuestionDuotone from '~icons/ph/question-duotone'
-// @ts-ignore
-import PhBuildingsDuotone from '~icons/ph/buildings-duotone'
 // @ts-ignore
 import PhPlusCircleDuotone from '~icons/ph/plus-circle-duotone'
 // @ts-ignore
@@ -22,7 +15,6 @@ import PhStarDuotone from '~icons/ph/star-duotone'
 import PhBookmarkSimpleDuotone from '~icons/ph/bookmark-simple-duotone'
 // @ts-ignore
 import PhNotebookDuotone from '~icons/ph/notebook-duotone'
-
 
 import {useFeedStore} from "@/stores/useFeedStore"
 import {storeToRefs} from "pinia";
@@ -36,18 +28,6 @@ onMounted(() => {
 })
 
 const {feeds} = storeToRefs(feedStore)
-
-const footerLinks = [{
-    name: 'Settings',
-    icon: PhGearDuotone
-}, {
-    name: 'Help',
-    icon: PhQuestionDuotone
-}, {
-    name: 'About',
-    icon: PhBuildingsDuotone
-}
-]
 
 function addFeed() {
     // open modal to add feed
@@ -97,10 +77,6 @@ const onImageRightClick = (event: any, feed: Feed) => {
                     <span>An Feed</span>
                     <AddFeedDialog/>
                 </div>
-            </div>
-            <div>
-                <SidebarMenuItem v-for="foot in footerLinks" :key="foot.name" :icon="foot.icon" :label="foot.name"/>
-                <SidebarUserProfile/>
             </div>
         </aside>
     </div>
