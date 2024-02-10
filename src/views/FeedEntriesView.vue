@@ -6,7 +6,7 @@ import {useFeedStore} from "@/stores/useFeedStore";
 import {useEntryStore} from "@/stores/useEntryStore";
 import {storeToRefs} from "pinia";
 import {onBeforeUnmount, onBeforeUpdate, onMounted, watch} from "vue";
-import EntryCard from "@/components/entry/EntryCard.vue";
+import EntryCard from "@/components/entry/EntryCardItem.vue";
 import {useRoute} from "vue-router";
 
 const feedStore = useFeedStore()

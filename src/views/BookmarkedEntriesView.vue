@@ -5,7 +5,7 @@ import ProgressBar from 'primevue/progressbar';
 
 import {useEntryStore} from "@/stores/useEntryStore";
 import {storeToRefs} from "pinia";
-import EntryCard from "@/components/entry/EntryCard.vue";
+import EntryCard from "@/components/entry/EntryCardItem.vue";
 import {onBeforeUnmount, onMounted} from "vue";
 
 const entryStore = useEntryStore()
