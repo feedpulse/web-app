@@ -82,5 +82,13 @@ class FeedAPI extends APIBase {
         return this.httpClient.delete(`/feeds/${uuid}`);
     }
 
+    public validateFeedUrl = (feedUrl: string): Promise<AxiosResponse> => {
+        return this.httpClient.get(`/feeds/validate-feed-url`, {
+            params: {
+                "feedUrl": feedUrl,
+            }
+        });
+    }
+
 }
 export default new FeedAPI();

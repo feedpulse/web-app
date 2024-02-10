@@ -44,6 +44,16 @@ export const useFeedStore = defineStore('feedStore', () => {
         }).catch((error) => {})
     }
 
+    const validateFeedUrl = (feedUrl: string): Promise<boolean> => {
+        return apiService.FeedAPI.validateFeedUrl(feedUrl).then(r => {
+            console.log(r)
+            return true
+        }).catch(e => {
+            console.log(e)
+            return false
+        })
+    }
+
     return {
         feeds,
         selectedFeed,
@@ -52,5 +62,6 @@ export const useFeedStore = defineStore('feedStore', () => {
         removeFeed,
         setSelectedFeed,
         isAddFeedDialogOpen,
+        validateFeedUrl
     }
 })
