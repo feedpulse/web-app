@@ -4,6 +4,7 @@ import UserAPI from "@/api/UserAPI";
 import FeedAPI from "@/api/FeedAPI";
 import AuthAPI from "@/api/AuthAPI";
 import BackendGitMetaAPI from "@/api/BackendGitMetaAPI";
+import SearchAPI from "@/api/SearchAPI";
 
 class ApiService {
 
@@ -17,8 +18,9 @@ class ApiService {
     public UserAPI = UserAPI
     public FeedAPI = FeedAPI
     public AuthAPI = AuthAPI
+    public SearchAPI = SearchAPI
     public BackendGitMetaAPI = BackendGitMetaAPI
-    private apiList = [EntryAPI, UserAPI, FeedAPI, AuthAPI, BackendGitMetaAPI]
+    private apiList = [EntryAPI, UserAPI, FeedAPI, AuthAPI, SearchAPI, BackendGitMetaAPI]
 
     constructor() {
         this.apiList.forEach((api) => {
@@ -58,6 +60,7 @@ class ApiService {
                     this.networkErrorCallback();
                 }
             } else if (error.response.status === 401) {
+                alert("You are not authenticated.")
                 if (this.unauthenticatedCallback) {
                     this.unauthenticatedCallback();
                 }
@@ -71,6 +74,7 @@ class ApiService {
                     this.tooManyRequestsCallback();
                 }
             }
+            console.log("REJECTED")
             console.log(error);
             return Promise.reject(error);
         });

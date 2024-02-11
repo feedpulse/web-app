@@ -16,6 +16,7 @@ import AboutView from "@/views/AboutView.vue";
 import SettingsView from "@/views/SettingsView.vue";
 import InfoSettingsView from "@/views/settings/InfoSettingsView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
+import SearchView from "@/views/SearchView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -95,6 +96,15 @@ const router = createRouter({
                     }
                 }
             ],
+        },
+        {
+            path: '/search',
+            name: 'search',
+            component: SearchView,
+            meta: {
+                layout: DefaultLayout,
+                middleware: [authMiddleware]
+            }
         },
         {
             path: '/:pathMatch(.*)*',
