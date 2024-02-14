@@ -41,14 +41,14 @@ function handleLogin() {
 onMounted(() => {
     // if user is already logged in, redirect to home
     if (authStore.isLoggedIn) {
-        router.push("/")
+        // router.push("/")
     }
 })
 
 </script>
 
 <template>
-    <div
+    <form @submit.prevent="handleLogin"
         class="h-screen w-screen justify-center items-center justify-items-center place-items-center flex flex-col gap-3">
         <div class="absolute bottom-0 left-0 p-2">
             <div class="text-surface-600 text-xs">
@@ -74,8 +74,8 @@ onMounted(() => {
             <InlineMessage v-if="errorMsg != ''">{{ errorMsg }}</InlineMessage>
         </Transition>
 
-        <Button class="w-fit" label="Login" size="small" @click="handleLogin"/>
-    </div>
+        <Button class="w-fit" label="Login" size="small" type="submit"/>
+    </form>
 
 </template>
 
