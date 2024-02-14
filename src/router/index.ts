@@ -11,12 +11,13 @@ import FavouriteEntriesView from "@/views/FavouriteEntriesView.vue";
 import BookmarkedEntriesView from "@/views/BookmarkedEntriesView.vue";
 import FeedEntriesView from "@/views/FeedEntriesView.vue";
 import AllEntriesView from '../views/AllEntriesView.vue'
-import LoginView from "@/views/LoginView.vue";
+import LoginView from "@/views/auth/LoginView.vue";
 import AboutView from "@/views/AboutView.vue";
 import SettingsView from "@/views/SettingsView.vue";
 import InfoSettingsView from "@/views/settings/InfoSettingsView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import SearchView from "@/views/SearchView.vue";
+import LogoutView from "@/views/auth/LogoutView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,6 +71,15 @@ const router = createRouter({
             }
         },
         {
+            path: '/logout',
+            name: 'logout',
+            component: LogoutView,
+            meta: {
+                layout: LoginLayout,
+                middleware: [authMiddleware]
+            }
+        },
+        {
             path: '/about',
             name: 'about',
             component: AboutView,
@@ -101,6 +111,15 @@ const router = createRouter({
             path: '/search',
             name: 'search',
             component: SearchView,
+            meta: {
+                layout: DefaultLayout,
+                middleware: [authMiddleware]
+            }
+        },
+        {
+            path: '/about',
+            name: 'about',
+            component: AboutView,
             meta: {
                 layout: DefaultLayout,
                 middleware: [authMiddleware]
