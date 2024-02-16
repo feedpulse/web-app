@@ -60,7 +60,6 @@ class ApiService {
                     this.networkErrorCallback();
                 }
             } else if (error.response.status === 401) {
-                alert("You are not authenticated.")
                 if (this.unauthenticatedCallback) {
                     this.unauthenticatedCallback();
                 }

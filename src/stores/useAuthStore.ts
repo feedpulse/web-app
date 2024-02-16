@@ -1,18 +1,36 @@
 import {defineStore} from "pinia";
-import {computed, type ComputedRef, ref, watch} from "vue";
-import {useNow, useSessionStorage, useTimestamp} from '@vueuse/core'
+import {computed, type ComputedRef, ref} from "vue";
+import {useEventBus, useSessionStorage, useTimestamp} from '@vueuse/core'
 import jwtDecode, {type JwtPayload} from "jwt-decode";
 import ApiService from "@/services/apiService";
 import {useToast} from "primevue/usetoast";
 
 export const useAuthStore = defineStore('authStore', () => {
     const toast = useToast()
-    const unauthenticated = ref(true)
+    const unauthEventBus = useEventBus<boolean>('unauth')
     const errorMsg = ref('')
-    ApiService.setUnauthenticatedCallback(() => unauthenticated.value = true)
-    ApiService.setUnauthorizedCallback(() => toast.add({severity: 'error', summary: 'Unauthorized', detail: 'You are not authorized to perform this action.', life: 3000}))
-    ApiService.setTooManyRequestsCallback(() => toast.add({severity: 'error', summary: 'Too Many Requests', detail: 'You have made too many requests. Please wait a while before trying again.', life: 3000}))
-    ApiService.setNetworkErrorCallback(() => toast.add({severity: 'error', summary: 'Network Error', detail: 'An error occurred while sending the request.', life: 3000}))
+    ApiService.setUnauthenticatedCallback(() => {
+        unauthEventBus.emit(true)
+        logout()
+    })
+    ApiService.setUnauthorizedCallback(() => toast.add({
+        severity: 'error',
+        summary: 'Unauthorized',
+        detail: 'You are not authorized to perform this action.',
+        life: 3000
+    }))
+    ApiService.setTooManyRequestsCallback(() => toast.add({
+        severity: 'error',
+        summary: 'Too Many Requests',
+        detail: 'You have made too many requests. Please wait a while before trying again.',
+        life: 3000
+    }))
+    ApiService.setNetworkErrorCallback(() => toast.add({
+        severity: 'error',
+        summary: 'Network Error',
+        detail: 'An error occurred while sending the request.',
+        life: 3000
+    }))
 
     const tokenString = useSessionStorage<string | null>('token', null)
     if (tokenString.value != null) {
@@ -35,7 +53,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const loginUser = async (email: string, password: string) => {
         ApiService.AuthAPI.login(email, password).then((response) => {
             errorMsg.value = ''
-            unauthenticated.value = false
+            unauthEventBus.emit(false)
             tokenString.value = response.data.token
         }).catch((error) => {
             errorMsg.value = error.response.data.details
@@ -44,14 +62,15 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     const logout = () => {
-        unauthenticated.value = true
+        unauthEventBus.emit(true)
         tokenString.value = null
         ApiService.setBearer(null)
     }
 
     return {
         errorMsg,
-        unauthenticated,
+        unauthEventBus,
+        // unauthenticated,
         expiration,
         isLoggedIn,
         token,

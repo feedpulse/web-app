@@ -2,14 +2,15 @@
 
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import {ref, watch} from "vue";
-import {useAuthStore} from "@/stores/useAuthStore";
-import {storeToRefs} from "pinia";
+import {ref} from "vue";
+import {useEventBus} from "@vueuse/core";
 
 const visible = ref(false);
-const {unauthenticated} = storeToRefs(useAuthStore())
-watch(unauthenticated, (newVal, oldVal) => {
-    visible.value = (newVal !== oldVal && newVal);
+const unauthEventBus = useEventBus<boolean>('unauth')
+unauthEventBus.on((e) => {
+    if (e) {
+        visible.value = true
+    }
 })
 
 </script>
