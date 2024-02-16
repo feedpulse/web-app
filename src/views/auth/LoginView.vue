@@ -3,9 +3,9 @@
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
 import Button from 'primevue/button';
 import InlineMessage from 'primevue/inlinemessage';
+import Divider from 'primevue/divider';
 
 // @ts-ignore
 import PhKeyDuotone from '~icons/ph/key-duotone'
@@ -19,7 +19,7 @@ import {watchOnce} from "@vueuse/core";
 import {useUserStore} from "@/stores/useUserStore";
 import {storeToRefs} from "pinia";
 
-import {sha,version, buildTime} from "@/const/GitMetaProperties"
+import {buildTime, sha, version} from "@/const/GitMetaProperties"
 
 const email = ref('')
 const password = ref('')
@@ -49,7 +49,7 @@ onMounted(() => {
 
 <template>
     <form @submit.prevent="handleLogin"
-        class="h-screen w-screen justify-center items-center justify-items-center place-items-center flex flex-col gap-3">
+        class="h-screen w-screen flex flex-col gap-3 ">
         <div class="absolute bottom-0 left-0 p-2">
             <div class="text-surface-600 text-xs">
                 <span class="block">Version: {{version}}</span>
@@ -57,24 +57,39 @@ onMounted(() => {
                 <span class="block">Build Time: {{buildTime}}</span>
             </div>
         </div>
-        <InputGroup class="!w-fit">
-            <InputGroupAddon>
-                <PhEnvelopeDuotone/>
-            </InputGroupAddon>
-            <InputText v-model="email" placeholder="Email" type="email"/>
-        </InputGroup>
+        <div class="w-96 h-full mx-auto flex flex-col gap-3 justify-center">
+            <p class="text-3xl font-bold text-surface-300 py-6">
+                Welcome to
+                <span class="text-3xl font-bold text-primary-500">FeedPulse</span>
+                <sup class="text-surface-600 ms-1 text-sm italic">(alpha)</sup>
+            </p>
+            <span class="text-surface-600">Login to your account</span>
 
-        <InputGroup class="!w-fit">
-            <InputGroupAddon>
-                <PhKeyDuotone/>
-            </InputGroupAddon>
-            <Password v-model="password" placeholder="Password" toggle-mask/>
-        </InputGroup>
-        <Transition>
-            <InlineMessage v-if="errorMsg != ''">{{ errorMsg }}</InlineMessage>
-        </Transition>
 
-        <Button class="w-fit" label="Login" size="small" type="submit"/>
+            <InputGroup>
+                <InputGroupAddon>
+                    <PhEnvelopeDuotone/>
+                </InputGroupAddon>
+                <InputText class="w-full" v-model="email" placeholder="Email" type="email"/>
+            </InputGroup>
+
+            <InputGroup class="w-full">
+                <InputGroupAddon>
+                    <PhKeyDuotone/>
+                </InputGroupAddon>
+                <InputText class="w-full" :feedback="false" v-model="password" placeholder="Password" type="password" toggle-mask/>
+            </InputGroup>
+            <Transition>
+                <InlineMessage v-if="errorMsg != ''">{{ errorMsg }}</InlineMessage>
+            </Transition>
+
+            <Button class="w-full" label="Login" size="small" type="submit"/>
+            <Divider type="dotted" />
+            <span class="text-surface-600">
+                Don't have an account?
+                <RouterLink to="/request-account" class="underline"> Request account</RouterLink>
+            </span>
+        </div>
     </form>
 
 </template>
