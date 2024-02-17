@@ -28,5 +28,14 @@ class AuthAPI extends APIBase {
         const payload = this.#createUserPayload(email, password);
         return this.httpClient.post<User>("/auth/register", payload);
     };
+    public requestAccount = (email: string, password: string, referralCode: string) => {
+        const payload = {
+            "email": email,
+            "password": password,
+            "referralCode": referralCode
+        };
+        return this.httpClient.post("/auth/request-account", payload);
+
+    }
 }
 export default new AuthAPI();

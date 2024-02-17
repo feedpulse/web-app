@@ -61,6 +61,19 @@ export const useAuthStore = defineStore('authStore', () => {
         })
     }
 
+    const requestAccount = async (email: string, password: string, referralCode: string) => {
+        ApiService.AuthAPI.requestAccount(email, password, referralCode).then((response) => {
+            errorMsg.value = ''
+            unauthEventBus.emit(false)
+            tokenString.value = response.data.token
+            Promise.resolve()
+        }).catch((error) => {
+            errorMsg.value = error.response.data.details
+            logout()
+            Promise.reject()
+        })
+    }
+
     const logout = () => {
         unauthEventBus.emit(true)
         tokenString.value = null
@@ -75,6 +88,7 @@ export const useAuthStore = defineStore('authStore', () => {
         isLoggedIn,
         token,
         loginUser,
+        requestAccount,
         logout
     }
 
