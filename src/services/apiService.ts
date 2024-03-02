@@ -5,6 +5,7 @@ import FeedAPI from "@/api/FeedAPI";
 import AuthAPI from "@/api/AuthAPI";
 import BackendGitMetaAPI from "@/api/BackendGitMetaAPI";
 import SearchAPI from "@/api/SearchAPI";
+import AdminAPI from "@/api/AdminAPI";
 
 class ApiService {
 
@@ -19,8 +20,9 @@ class ApiService {
     public FeedAPI = FeedAPI
     public AuthAPI = AuthAPI
     public SearchAPI = SearchAPI
+    public AdminAPI = AdminAPI
     public BackendGitMetaAPI = BackendGitMetaAPI
-    private apiList = [EntryAPI, UserAPI, FeedAPI, AuthAPI, SearchAPI, BackendGitMetaAPI]
+    private apiList = [EntryAPI, UserAPI, FeedAPI, AuthAPI, SearchAPI, AdminAPI, BackendGitMetaAPI]
 
     constructor() {
         this.apiList.forEach((api) => {

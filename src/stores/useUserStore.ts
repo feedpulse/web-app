@@ -48,10 +48,25 @@ export const useUserStore = defineStore('userStore', () => {
         return []
     })
 
+    const getUsers = async () => {
+        return apiService.UserAPI.getUsers()
+    }
+
+    const getUsersWithFilter = async (email: string | null, enabled: boolean | null) => {
+        return apiService.UserAPI.getUsersWithFilter(email, enabled)
+    }
+
+    const enableUser = (user: User) => {
+        return apiService.UserAPI.enableUser(user.uuid,true)
+    }
+
     return {
         user,
         initials,
-        roles
+        roles,
+        getUsers,
+        getUsersWithFilter,
+        enableUser
     }
 
 

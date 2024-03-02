@@ -19,6 +19,7 @@ import NotFoundView from "@/views/NotFoundView.vue";
 import SearchView from "@/views/SearchView.vue";
 import LogoutView from "@/views/auth/LogoutView.vue";
 import RequestAccountView from "@/views/auth/RequestAccountView.vue";
+import AccountRequestsView from "@/views/settings/AccountRequestsView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -109,6 +110,15 @@ const router = createRouter({
                     path: 'info',
                     name: 'info-settings',
                     component: InfoSettingsView,
+                    meta: {
+                        layout: DefaultLayout,
+                        middleware: [authMiddleware]
+                    }
+                },
+                {
+                    path: 'account-requests',
+                    name: 'account-requests',
+                    component: AccountRequestsView,
                     meta: {
                         layout: DefaultLayout,
                         middleware: [authMiddleware]

@@ -3,6 +3,8 @@
 import SettingsItem from "@/components/settings/SettingsItem.vue";
 // @ts-ignore
 import PhInfoDuotone from '~icons/ph/info-duotone'
+// @ts-ignore
+import PhUserCirclePlusDuotone from '~icons/ph/user-circle-plus-duotone'
 </script>
 
 <template>
@@ -22,6 +24,7 @@ import PhInfoDuotone from '~icons/ph/info-duotone'
 <!--                <SettingsItem :icon="PhInfoDuotone" label="Integrations" to="/settings/integrations"/>-->
 <!--                <SettingsItem :icon="PhInfoDuotone" label="Exceptions" to="/settings/exceptions"/>-->
                 <SettingsItem :icon="PhInfoDuotone" label="Info" to="/settings/info"/>
+                <SettingsItem :icon="PhUserCirclePlusDuotone" label="Account Requests" to="/settings/account-requests"/>
             </div>
 
             <RouterView class="grow ml-8 bg-body-light dark:bg-body-dark p-4 rounded-lg h-fit"/>

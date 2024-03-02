@@ -5,7 +5,7 @@ class UserEntryInteraction {
 }
 
 export default interface User {
-    id: number;
+    uuid: string;
     username: string;
     password: string;
     email: string;
