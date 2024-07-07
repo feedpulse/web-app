@@ -70,7 +70,7 @@ const bookmarkBtnSeverity = computed(() => {
 <template>
     <Card class="border-primary-400 border w-[28em] m-2" >
         <template #header>
-            <img alt="user header" :src="entry.imageUrl" />
+            <img alt="user header" class="w-full  object-cover aspect-[5/3]" :src="entry.imageUrl" />
         </template>
         <template #title> <a class="hover:underline duration-300" :href="entry.link">{{entry.title}}</a> </template>
         <template #subtitle> {{entry.pubDate}} </template>
