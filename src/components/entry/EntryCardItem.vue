@@ -75,7 +75,7 @@ const bookmarkBtnSeverity = computed(() => {
         <template #title> <a class="hover:underline duration-300" :href="entry.link">{{entry.title}}</a> </template>
         <template #subtitle> {{entry.pubDate}} </template>
         <template #content>
-            <p class="m-0">
+            <p class="m-0 line-clamp-6">
                 {{entry.description}}
             </p>
         </template>
