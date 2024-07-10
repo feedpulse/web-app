@@ -25,6 +25,15 @@ const props = defineProps({
 
 const entryStore = useEntryStore()
 
+const basicFeedUrl = computed(() => {
+    var link = props.entry.link
+    // remove the protocol from the url
+    link = link.replace(/(^\w+:|^)\/\//, '');
+    // remove the path from the url
+    link = link.split('/')[0]
+    return link
+})
+
 function markRead() {
     entryStore.markEntryAsRead(props.entry)
     console.log("mark read")
@@ -73,7 +82,7 @@ const bookmarkBtnSeverity = computed(() => {
             <img alt="user header" class="w-full  object-cover aspect-[5/3]" :src="entry.imageUrl" />
         </template>
         <template #title> <a class="hover:underline duration-300" :href="entry.link">{{entry.title}}</a> </template>
-        <template #subtitle> {{entry.pubDate}} </template>
+        <template #subtitle> {{basicFeedUrl}} <br> {{entry.pubDate}} </template>
         <template #content>
             <p class="m-0 line-clamp-6">
                 {{entry.description}}
