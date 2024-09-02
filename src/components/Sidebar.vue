@@ -54,7 +54,7 @@ const onImageRightClick = (event: any, feed: Feed) => {
 </script>
 
 <template>
-    <div class="bg-surface-800 h-screen w-56 fixed">
+    <div class="bg-surface-800 h-screen w-56 fixed overflow-y-auto">
         <aside class="flex flex-col h-screen">
             <div class="flex flex-col place-self-center">
                 <h2 class="text-primary-500 font-semibold text-xl">Logo</h2>
@@ -65,13 +65,16 @@ const onImageRightClick = (event: any, feed: Feed) => {
                 <SidebarMenuItem :icon="PhBookmarkSimpleDuotone" label="Bookmarks" to="/bookmarks"/>
             </div>
 
-            <div class="grow flex flex-col text-white justify-center m-2">
-                <span>Feeds</span>
-                <SidebarFeedItem v-for="feed in feeds" :key="feed.uuid" :name="feed.title" :to="`/feed/${feed.uuid}`"
-                                 @contextmenu="onImageRightClick($event, feed)"/>
-                <ContextMenu ref="menu" :model="items"/>
+            <div class="flex flex-col text-white justify-center m-2">
+                <div class="flex-grow overflow-auto">
+                    <span>Feeds</span>
+                    <SidebarFeedItem v-for="feed in feeds" :key="feed.uuid" :name="feed.title" :to="`/feed/${feed.uuid}`"
+                                     @contextmenu="onImageRightClick($event, feed)"/>
+                    <ContextMenu ref="menu" :model="items"/>
+                </div>
                 <Divider/>
-                <div class="cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-1.5 m-1 rounded-md space-x-2"
+
+                <div class="flex-shrink-0 cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-1.5 m-1 rounded-md space-x-2"
                      @click="addFeed">
                     <PhPlusCircleDuotone/>
                     <span>An Feed</span>
