@@ -19,8 +19,8 @@ const isCurrentRoute = () => {
 <template>
     <RouterLink :to="to">
         <div :class="{'border-primary-500 border-2': isCurrentRoute()}"
-             class="cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-2 m-2 rounded-md space-x-2">
-            <span>{{ name }}</span>
+             class=" cursor-pointer bg-surface-700 hover:bg-surface-600 duration-150 text-white flex items-center text-center p-2 m-2 rounded-md space-x-2">
+            <span class="truncate">{{ name }}</span>
         </div>
     </RouterLink>
 </template>
