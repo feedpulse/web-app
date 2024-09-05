@@ -32,7 +32,7 @@ export default {
             },
 
             // Colors
-            'bg-primary-500 dark:bg-primary-400'
+            'bg-primary'
         ]
     }),
     handle: ({ props }) => ({
@@ -53,11 +53,11 @@ export default {
 
             // Colors
             'bg-surface-0 dark:bg-surface-600',
-            'border-primary-500 dark:border-primary-400',
+            'border-primary',
 
             // States
-            'hover:bg-primary-500 hover:border-primary-500',
-            'focus:outline-none focus:outline-offset-0 focus:ring',
+            'hover:bg-primary-emphasis',
+            'focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring',
             'ring-primary-400/50 dark:ring-primary-300/50',
 
             // Transitions
@@ -68,7 +68,7 @@ export default {
             'touch-action-none'
         ]
     }),
-    starthandler: ({ props }) => ({
+    startHandler: ({ props }) => ({
         class: [
             'block',
 
@@ -86,12 +86,12 @@ export default {
 
             // Colors
             'bg-surface-0 dark:bg-surface-600',
-            'border-primary-500 dark:border-primary-400',
+            'border-primary',
 
             // States
-            'hover:bg-primary-500 hover:border-primary-500',
-            'focus:outline-none focus:outline-offset-0 focus:ring',
-            'focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
+            'hover:bg-primary-emphasis',
+            'focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring',
+            'focus-visible:ring-primary-400/50 dark:focus-visible:ring-primary-300/50',
 
             // Transitions
             'transition duration-200',
@@ -101,7 +101,7 @@ export default {
             'touch-action-none'
         ]
     }),
-    endhandler: ({ props }) => ({
+    endHandler: ({ props }) => ({
         class: [
             'block',
 
@@ -119,12 +119,12 @@ export default {
 
             // Colors
             'bg-surface-0 dark:bg-surface-600',
-            'border-primary-500 dark:border-primary-400',
+            'border-primary',
 
             // States
-            'hover:bg-primary-500 hover:border-primary-500',
-            'focus:outline-none focus:outline-offset-0 focus:ring',
-            'focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
+            'hover:bg-primary-emphasis',
+            'focus-visible:outline-none focus-visible:outline-offset-0 focus-visible:ring',
+            'focus-visible:ring-primary-400/50 dark:focus-visible:ring-primary-300/50',
 
             // Transitions
             'transition duration-200',

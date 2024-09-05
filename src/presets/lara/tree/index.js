@@ -10,7 +10,8 @@ export default {
             // Color
             'bg-surface-0 dark:bg-surface-800',
             'text-surface-700 dark:text-white/80',
-            'border border-solid border-surface-200 dark:border-surface-700'
+            'border border-solid border-surface-200 dark:border-surface-700',
+            '[&_[data-pc-name=pcfilter]]:w-full'
         ]
     },
     wrapper: {
@@ -28,7 +29,7 @@ export default {
     node: {
         class: ['p-1', 'rounded-md', 'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-inset focus:ring-primary-400/50 dark:focus:ring-primary-300/50']
     },
-    content: ({ context, props }) => ({
+    nodeContent: ({ context, props }) => ({
         class: [
             // Flex and Alignment
             'flex items-center',
@@ -37,11 +38,11 @@ export default {
             'rounded-md',
 
             // Spacing
-            'p-2',
+            'p-2 gap-2',
 
             // Colors
             'text-surface-600 dark:text-white/70',
-            { 'bg-primary-50 dark:bg-primary-400/30 text-primary-600 dark:text-surface-0': context.selected },
+            { 'bg-highlight': context.selected },
 
             // States
             { 'hover:bg-surface-50 dark:hover:bg-surface-700/40': (props.selectionMode == 'single' || props.selectionMode == 'multiple') && !context.selected },
@@ -52,7 +53,7 @@ export default {
             { 'cursor-pointer select-none': props.selectionMode == 'single' || props.selectionMode == 'multiple' }
         ]
     }),
-    toggler: ({ context }) => ({
+    nodeToggleButton: ({ context }) => ({
         class: [
             // Flex and Alignment
             'inline-flex items-center justify-center',
@@ -62,9 +63,6 @@ export default {
 
             // Size
             'w-8 h-8',
-
-            // Spacing
-            'mr-2',
 
             // Colors
             'bg-transparent',
@@ -85,67 +83,7 @@ export default {
             'cursor-pointer select-none'
         ]
     }),
-    checkboxcontainer: {
-        class: 'mr-2'
-    },
-    checkbox: ({ context, props }) => ({
-        class: [
-            'relative',
-
-            // Alignment
-            'flex',
-            'items-center',
-            'justify-center',
-
-            // Size
-            'w-6',
-            'h-6',
-
-            // Shape
-            'rounded-lg',
-            'border-2',
-
-            // Colors
-            'text-surface-600',
-            {
-                'border-surface-200 bg-surface-0 dark:border-surface-700 dark:bg-surface-900': !context.checked,
-                'border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400': context.checked
-            },
-
-            // States
-            'focus:outline-none focus:outline-offset-0',
-            {
-                'hover:border-primary-500 dark:hover:border-primary-400': !props.disabled,
-                'ring ring-primary-400/50 dark:ring-primary-300/50': !props.disabled && context.focused,
-                'cursor-default opacity-60': props.disabled
-            },
-
-            // Transitions
-            'transition-colors',
-            'duration-200',
-
-            // Misc
-            'cursor-pointer'
-        ]
-    }),
-    checkboxicon: {
-        class: [
-            // Font
-            'text-base leading-none',
-
-            // Size
-            'w-4',
-            'h-4',
-
-            // Colors
-            'text-white dark:text-surface-900',
-
-            // Transitions
-            'transition-all',
-            'duration-200'
-        ]
-    },
-    nodeicon: {
+    nodeIcon: {
         class: [
             // Space
             'mr-2',
@@ -154,61 +92,10 @@ export default {
             'text-surface-600 dark:text-white/70'
         ]
     },
-    subgroup: {
+    nodeChildren: {
         class: ['m-0 list-none p-0 pl-2 mt-1']
     },
-    filtercontainer: {
-        class: [
-            'relative block',
-
-            // Space
-            'mb-2',
-
-            // Size
-            'w-full'
-        ]
-    },
-    input: {
-        class: [
-            'relative',
-            // Font
-            'font-sans leading-none',
-
-            // Spacing
-            'm-0',
-            'p-3 pr-10',
-
-            // Size
-            'w-full',
-
-            // Shape
-            'rounded-md',
-
-            // Colors
-            'text-surface-600 dark:text-surface-200',
-            'placeholder:text-surface-400 dark:placeholder:text-surface-500',
-            'bg-surface-0 dark:bg-surface-900',
-            'border border-surface-300 dark:border-surface-600',
-
-            // States
-            'hover:border-primary-500 dark:hover:border-primary-400',
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-primary-500/50 dark:focus:ring-primary-400/50',
-
-            // Transition & Misc
-            'appearance-none',
-            'transition-colors duration-200'
-        ]
-    },
-    loadingicon: {
+    loadingIcon: {
         class: ['text-surface-500 dark:text-surface-0/70', 'absolute top-[50%] right-[50%] -mt-2 -mr-2 animate-spin']
-    },
-    searchicon: {
-        class: [
-            // Position
-            'absolute top-1/2 -mt-2 right-3',
-
-            // Color
-            'text-surface-600 dark:hover:text-white/70'
-        ]
     }
 };

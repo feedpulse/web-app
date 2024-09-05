@@ -5,13 +5,13 @@ export default {
             'flex flex-col'
         ]
     },
-    content: {
+    contentContainer: {
         class: [
             // Flexbox & Overflow
             'flex flex-col overflow-auto'
         ]
     },
-    container: ({ props }) => ({
+    content: ({ props }) => ({
         class: [
             // Flexbox
             'flex',
@@ -20,64 +20,18 @@ export default {
             {
                 'flex-row': props.orientation !== 'vertical',
                 'flex-col': props.orientation == 'vertical'
-            }
+            },
+            ,
+            '[&>[data-pc-extend=button]]:self-center'
         ]
     }),
-    previousbutton: {
-        class: [
-            // Flexbox & Alignment
-            'flex justify-center items-center self-center',
-
-            // Sizing & Overflow
-            'overflow-hidden w-8 h-8',
-
-            // Spacing
-            'mx-2',
-
-            // Shape
-            'rounded-full',
-
-            // Border & Background
-            'border-0 bg-transparent',
-
-            // Color
-            'text-surface-600',
-
-            // Transitions
-            'transition duration-200 ease-in-out'
-        ]
-    },
-    nextbutton: {
-        class: [
-            // Flexbox & Alignment
-            'flex justify-center items-center self-center',
-
-            // Sizing & Overflow
-            'overflow-hidden w-8 h-8',
-
-            // Spacing
-            'mx-2',
-
-            // Shape
-            'rounded-full',
-
-            // Border & Background
-            'border-0 bg-transparent',
-
-            // Color
-            'text-surface-600',
-
-            // Transitions
-            'transition duration-200 ease-in-out'
-        ]
-    },
-    itemscontent: {
+    viewport: {
         class: [
             // Overflow & Width
             'overflow-hidden w-full'
         ]
     },
-    itemscontainer: ({ props }) => ({
+    itemList: ({ props }) => ({
         class: [
             // Flexbox
             'flex',
@@ -92,16 +46,31 @@ export default {
     item: ({ props }) => ({
         class: [
             // Flexbox
-            'flex shrink-0 grow',
+            'flex shrink-0 grow ',
 
-            // Width
+            // Size
             {
-                'w-1/3': props.orientation !== 'vertical',
-                'w-full': props.orientation == 'vertical'
+                'w-full sm:w-[50%] md:w-[33.333333333333336%]': props.orientation !== 'vertical',
+
+                'w-full h-full': props.orientation == 'vertical'
             }
         ]
     }),
-    indicators: {
+    itemClone: ({ props }) => ({
+        class: [
+            // Flexbox
+            'flex shrink-0 grow',
+            'unvisible',
+
+            // Size
+            {
+                'w-full sm:w-[50%] md:w-[33.333333333333336%]': props.orientation !== 'vertical',
+
+                'w-full h-full': props.orientation == 'vertical'
+            }
+        ]
+    }),
+    indicatorList: {
         class: [
             // Flexbox & Alignment
             'flex flex-row justify-center flex-wrap'
@@ -113,7 +82,7 @@ export default {
             'mr-2 mb-2'
         ]
     },
-    indicatorbutton: ({ context }) => ({
+    indicatorButton: ({ context }) => ({
         class: [
             // Sizing & Shape
             'w-8 h-2 rounded-0',
@@ -127,7 +96,7 @@ export default {
             // Color & Background
             {
                 'bg-surface-200 hover:bg-surface-300 dark:bg-surface-700 dark:hover:bg-surface-600': !context.highlighted,
-                'bg-primary-500 hover:bg-primary-600': context.highlighted
+                'bg-primary hover:bg-primary-emphasis': context.highlighted
             }
         ]
     })

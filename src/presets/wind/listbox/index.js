@@ -1,17 +1,20 @@
 export default {
-    root: {
+    root: ({ props }) => ({
         class: [
             // Sizing and Shape
             'min-w-[12rem]',
             'rounded-md',
-            // Spacing
 
             // Colors
             'bg-surface-0 dark:bg-surface-700',
             'text-surface-700 dark:text-white/80',
-            'ring-1 ring-surface-200 dark:ring-surface-700'
+            'ring-1',
+            { 'ring-surface-200 dark:ring-surface-700': !props.invalid },
+
+            // Invalid State
+            { 'ring-red-500 dark:ring-red-400': props.invalid }
         ]
-    },
+    }),
     wrapper: {
         class: [
             // Overflow

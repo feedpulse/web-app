@@ -1,13 +1,15 @@
 export default {
     root: ({ props }) => ({
         class: [
-            'inline-flex relative',
+            'relative',
+            { 'flex [&>input]:w-full': props.fluid, 'inline-flex': !props.fluid },
             {
                 'opacity-60 select-none pointer-events-none cursor-default': props.disabled
-            }
+            },
+            { '[&>input]:pr-10': props.toggleMask }
         ]
     }),
-    panel: {
+    overlay: {
         class: [
             // Spacing
             'p-5',
@@ -39,7 +41,7 @@ export default {
             'bg-surface-100 dark:bg-surface-700'
         ]
     },
-    meterlabel: ({ instance }) => ({
+    meterLabel: ({ instance }) => ({
         class: [
             // Size
             'h-full',
@@ -55,11 +57,11 @@ export default {
             'transition-all duration-1000 ease-in-out'
         ]
     }),
-    showicon: {
-        class: ['absolute top-1/2 right-3 -mt-2', 'text-surface-600 dark:text-white/70']
+    maskIcon: {
+        class: ['absolute top-1/2 right-3 -mt-2 z-10', 'text-surface-600 dark:text-white/70']
     },
-    hideicon: {
-        class: ['absolute top-1/2 right-3 -mt-2', 'text-surface-600 dark:text-white/70']
+    unmaskIcon: {
+        class: ['absolute top-1/2 right-3 -mt-2 z-10', 'text-surface-600 dark:text-white/70']
     },
     transition: {
         enterFromClass: 'opacity-0 scale-y-[0.8]',

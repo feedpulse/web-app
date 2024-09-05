@@ -1,47 +1,45 @@
 export default {
     root: ({ props, context }) => ({
         class: [
-            // Alignments
-            'items-center inline-flex text-center align-bottom justify-center',
+            'relative',
 
-            // Sizes & Spacing
-            'px-4 py-3 leading-none',
-
-            // Shapes
+            // Alignment
+            'flex items-center justify-center',
+            'px-3 py-2',
             'rounded-md border',
 
-            // Colors
+            //Color
             {
                 'bg-surface-0 dark:bg-surface-900 ': !props.modelValue,
-                'border-surface-200 dark:border-surface-700 ': !props.modelValue,
+                'border-surface-200 dark:border-surface-700 ': !props.modelValue && !props.invalid,
                 'text-surface-700 dark:text-white/80': !props.modelValue,
-                'bg-primary-500 dark:bg-primary-400 border-primary-500 dark:border-primary-400 text-white dark:text-surface-900': props.modelValue
+                'bg-primary border-primary text-primary-contrast': props.modelValue
             },
 
             // States
             {
-                'hover:bg-surface-50 dark:hover:bg-surface-800/80 hover:border-surface-200 dark:hover:bg-surface-700 hover:text-surface-700 dark:hover:text-white/80': !props.modelValue,
-                'hover:bg-primary-600 hover:border-primary-600 dark:hover:bg-primary-300 dark:hover:border-primary-300': props.modelValue,
-                'outline-none outline-offset-0 ring ring-primary-400/50 dark:ring-primary-300/50': context.focused && !props.disabled
+                'hover:text-surface-800 dark:hover:text-white/80': !props.disabled && !props.modelValue,
+                'focus:outline-none focus:outline-offset-0 focus-visible:ring-1 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400': !props.disabled
             },
+
+            // Invalid State
+            { 'border-red-500 dark:border-red-400': props.invalid },
+
+            // Before
+            'before:absolute before:left-1 before:top-1 before:w-[calc(100%-0.5rem)] before:h-[calc(100%-0.5rem)] before:rounded-[4px] before:z-0',
 
             // Transitions
             'transition-all duration-200',
 
             // Misc
-            { 'cursor-pointer': !props.disabled, 'opacity-60 select-none pointer-events-none cursor-default': props.disabled }
+            { 'cursor-pointer': !props.disabled, 'opacity-60 select-none pointer-events-none cursor-default': props.disabled },
+
+            // Misc
+            'cursor-pointer',
+            'select-none'
         ]
     }),
-    label: {
-        class: 'font-bold text-center w-full'
-    },
-    icon: ({ props }) => ({
-        class: [
-            ' mr-2',
-            {
-                'text-surface-600 dark:text-white/70': !props.modelValue,
-                'text-white dark:text-surface-900': props.modelValue
-            }
-        ]
-    })
+    content: 'relative items-center inline-flex justify-center gap-2',
+    label: 'font-bold text-center w-full z-10 relative',
+    icon: 'relative z-10 mr-2'
 };

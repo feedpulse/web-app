@@ -20,7 +20,7 @@
     "axios": "^1.6.5",
     "jwt-decode": "^3.1.2",
     "pinia": "^2.1.7",
-    "primevue": "^3.53.0",
+    "primevue": "^4.0.5",
     "vue": "^3.4.31",
     "vue-router": "^4.4.0"
   },

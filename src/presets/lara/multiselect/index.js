@@ -6,19 +6,22 @@ export default {
             'relative',
 
             // Shape
-            'w-full md:max-w-[20rem]',
             'rounded-md',
 
             // Color and Background
             'bg-surface-0 dark:bg-surface-900',
-            'border border-surface-300 dark:border-surface-700',
+            'border',
+            { 'border-surface-300 dark:border-surface-600': !props.invalid },
+
+            // Invalid State
+            { 'border-red-500 dark:border-red-400': props.invalid },
 
             // Transitions
             'transition-all',
             'duration-200',
 
             // States
-            'hover:border-primary-500 dark:hover:border-primary-300',
+            { 'hover:border-primary': !props.invalid },
             { 'outline-none outline-offset-0 ring ring-primary-400/50 dark:ring-primary-300/50': state.focused },
 
             // Misc
@@ -27,23 +30,21 @@ export default {
             { 'opacity-60': props.disabled, 'pointer-events-none': props.disabled, 'cursor-default': props.disabled }
         ]
     }),
-    labelContainer: {
-        class: 'overflow-hidden flex flex-auto cursor-pointer '
-    },
+    labelContainer: 'overflow-hidden flex flex-auto cursor-pointer',
     label: ({ props }) => ({
         class: [
-            'leading-none',
+            'leading-[normal]',
             'block ',
 
             // Spacing
             {
                 'p-3': props.display !== 'chip',
                 'py-3 px-3': props.display === 'chip' && !props?.modelValue?.length,
-                'py-1.5 px-3': props.display === 'chip' && props?.modelValue?.length > 0
+                'py-[0.375rem] px-3': props.display === 'chip' && props?.modelValue?.length > 0
             },
 
             // Color
-            { 'text-surface-800 dark:text-white/80': props.modelValue, 'text-surface-400 dark:text-surface-500': !props.modelValue },
+            { 'text-surface-800 dark:text-white/80': props.modelValue?.length, 'text-surface-400 dark:text-surface-500': !props.modelValue?.length },
             'placeholder:text-surface-400 dark:placeholder:text-surface-500',
 
             // Transitions
@@ -53,44 +54,7 @@ export default {
             'overflow-hidden whitespace-nowrap cursor-pointer overflow-ellipsis'
         ]
     }),
-    token: {
-        class: [
-            // Flex
-            'inline-flex items-center',
-
-            // Spacings
-            'py-1.5 px-3 mr-2',
-
-            // Shape
-            'rounded-[1.14rem]',
-
-            // Colors
-            'bg-surface-200 dark:bg-surface-700',
-            'text-surface-700 dark:text-white/70',
-
-            // Misc
-            'cursor-default'
-        ]
-    },
-    removeTokenIcon: {
-        class: [
-            // Shape
-            'rounded-md leading-6',
-
-            // Spacing
-            'ml-2',
-
-            // Size
-            'w-4 h-4',
-
-            // Transition
-            'transition duration-200 ease-in-out',
-
-            // Misc
-            'cursor-pointer'
-        ]
-    },
-    trigger: {
+    dropdown: {
         class: [
             // Flexbox
             'flex items-center justify-center',
@@ -108,10 +72,9 @@ export default {
             'rounded-br-md'
         ]
     },
-    panel: {
+    overlay: {
         class: [
             // Position
-            'absolute top-0 left-0',
 
             // Shape
             'border-0 dark:border',
@@ -128,7 +91,7 @@ export default {
         class: [
             'flex items-center justify-between',
             // Spacing
-            'py-3 px-5',
+            'py-3 px-5 gap-2',
             'm-0',
 
             //Shape
@@ -139,106 +102,13 @@ export default {
             // Color
             'text-surface-700 dark:text-white/80',
             'bg-surface-100 dark:bg-surface-800',
-            'border-surface-300 dark:border-surface-700'
+            'border-surface-300 dark:border-surface-700',
+
+            '[&_[data-pc-name=pcfiltercontainer]]:!flex-auto',
+            '[&_[data-pc-name=pcfilter]]:w-full'
         ]
     },
-    headerCheckboxContainer: {
-        class: [
-            'relative',
-
-            // Alignment
-            'inline-flex',
-            'align-bottom',
-
-            // Size
-            'w-6',
-            'h-6',
-
-            // Misc
-            'cursor-pointer',
-            'select-none'
-        ]
-    },
-    headerCheckbox: ({ context, state }) => ({
-        class: [
-            // Alignment
-            'flex',
-            'items-center',
-            'justify-center',
-
-            // Size
-            'w-6',
-            'h-6',
-
-            // Shape
-            'rounded-lg',
-            'border-2',
-
-            // Colors
-            'text-surface-600',
-            {
-                'border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900': !context?.selected,
-                'border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400': context?.selected
-            },
-
-            'hover:border-primary-500',
-            { 'outline-none outline-offset-0 ring-2 ring-primary-400/50 dark:ring-primary-300/50': state.focused }
-        ]
-    }),
-    headercheckboxicon: {
-        class: [
-            // Font
-            'text-base leading-none',
-
-            // Size
-            'w-4',
-            'h-4',
-
-            // Colors
-            'text-white dark:text-surface-900',
-
-            // Transitions
-            'transition-all',
-            'duration-200'
-        ]
-    },
-    closeButton: {
-        class: [
-            'relative',
-
-            // Flexbox and Alignment
-            'flex items-center justify-center',
-
-            // Size and Spacing
-            'mr-2',
-            'last:mr-0',
-            'w-8 h-8',
-
-            // Shape
-            'border-0',
-            'rounded-full',
-
-            // Colors
-            'text-surface-500',
-            'bg-transparent',
-
-            // Transitions
-            'transition duration-200 ease-in-out',
-
-            // States
-            'hover:text-surface-700 dark:hover:text-white/80',
-            'hover:bg-surface-100 dark:hover:bg-surface-800/80',
-            'focus:outline-none focus:outline-offset-0 focus:ring focus:ring-inset',
-            'focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
-
-            // Misc
-            'overflow-hidden'
-        ]
-    },
-    closeButtonIcon: {
-        class: 'w-4 h-4 inline-block'
-    },
-    wrapper: {
+    listContainer: {
         class: [
             // Sizing
             'max-h-[200px]',
@@ -250,7 +120,7 @@ export default {
     list: {
         class: 'py-3 list-none m-0'
     },
-    item: ({ context }) => ({
+    option: ({ context }) => ({
         class: [
             // Font
             'font-normal',
@@ -268,13 +138,12 @@ export default {
 
             // Spacing
             'm-0',
-            'py-3 px-5',
+            'py-3 px-5 gap-2',
 
             // Color
             { 'text-surface-700 dark:text-white/80': !context.focused && !context.selected },
             { 'bg-surface-200 dark:bg-surface-600/60 text-surface-700 dark:text-white/80': context.focused && !context.selected },
-            { 'bg-primary-100 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': context.focused && context.selected },
-            { 'bg-primary-50 dark:bg-primary-400/40 text-primary-700 dark:text-white/80': !context.focused && context.selected },
+            { 'bg-highlight': context.selected },
 
             //States
             { 'hover:bg-surface-100 dark:hover:bg-surface-600/80': !context.focused && !context.selected },
@@ -290,70 +159,7 @@ export default {
             'whitespace-nowrap'
         ]
     }),
-    checkboxContainer: {
-        class: [
-            'relative',
-
-            // Alignment
-            'inline-flex',
-            'align-bottom',
-
-            // Space
-            'mr-2',
-
-            // Size
-            'w-6',
-            'h-6',
-
-            // Misc
-            'cursor-pointer',
-            'select-none'
-        ]
-    },
-    checkbox: ({ context }) => ({
-        class: [
-            // Alignment
-            'flex',
-            'items-center',
-            'justify-center',
-
-            // Size
-            'w-6',
-            'h-6',
-
-            // Shape
-            'rounded-lg',
-            'border-2',
-
-            // Colors
-            'text-surface-600',
-            {
-                'border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900': !context?.selected,
-                'border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400': context?.selected
-            },
-
-            'hover:border-primary-500 focus:outline-none',
-            'focus:outline-offset-0 focus:ring focus:ring-primary-400/50 dark:focus:ring-primary-300/50'
-        ]
-    }),
-    checkboxicon: {
-        class: [
-            // Font
-            'text-base leading-none',
-
-            // Size
-            'w-4',
-            'h-4',
-
-            // Colors
-            'text-white dark:text-surface-900',
-
-            // Transitions
-            'transition-all',
-            'duration-200'
-        ]
-    },
-    itemgroup: {
+    optionGroup: {
         class: [
             //Font
             'font-bold',
@@ -370,62 +176,7 @@ export default {
             'cursor-auto'
         ]
     },
-    filtercontainer: {
-        class: 'relative w-full mx-2'
-    },
-    filterinput: {
-        class: [
-            // Font
-            'font-sans',
-            'leading-none',
-
-            // Sizing
-            'pr-7 py-3 px-3',
-            '-mr-7',
-            'w-full',
-
-            //Color
-            'text-surface-700 dark:text-white/80',
-            'bg-surface-0 dark:bg-surface-900',
-            'border-surface-200 dark:border-surface-700',
-            'placeholder:text-surface-400 dark:placeholder:text-surface-500',
-
-            // Shape
-            'border',
-            'rounded-lg',
-            'appearance-none',
-
-            // Transitions
-            'transition',
-            'duration-200',
-
-            // States
-            'hover:border-primary-500 dark:hover:border-primary-300',
-            'focus:ring focus:outline-none focus:outline-offset-0',
-            'focus:ring-primary-400/50 dark:focus:ring-primary-300/50',
-
-            // Misc
-            'appearance-none'
-        ]
-    },
-    filtericon: {
-        class: ['absolute', 'top-1/2 right-3', '-mt-2']
-    },
-    clearicon: {
-        class: [
-            // Color
-            'text-surface-500',
-
-            // Position
-            'absolute',
-            'top-1/2',
-            'right-12',
-
-            // Spacing
-            '-mt-2'
-        ]
-    },
-    emptymessage: {
+    emptyMessage: {
         class: [
             // Font
             'leading-none',
@@ -437,6 +188,9 @@ export default {
             'text-surface-800 dark:text-white/80',
             'bg-transparent'
         ]
+    },
+    loadingIcon: {
+        class: 'text-surface-400 dark:text-surface-500 animate-spin'
     },
     transition: {
         enterFromClass: 'opacity-0 scale-y-[0.8]',
