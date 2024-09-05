@@ -83,7 +83,7 @@ const targetIsVisible = useElementVisibility(target, {
 
 
 <template>
-    <Card class="bg-transparent border w-[28em] m-2" :class="[targetIsVisible ? '' : 'border-primary-400']" ref="target">
+    <Card class="bg-transparent border w-[28em] m-2" :class="[targetIsVisible ? '' : 'border-primary-400', props.entry?.read ? 'brightness-75' : 'brightness-100']" ref="target">
         <template #header>
             <img alt="user header" class="w-full  object-cover aspect-[5/3]" :src="entry.imageUrl" />
         </template>
