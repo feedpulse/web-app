@@ -12,7 +12,8 @@ import PhReadCvLogoDuotone from '~icons/ph/read-cv-logo-duotone'
 
 import type Entry from "@/models/Entry";
 import {useEntryStore} from "@/stores/useEntryStore";
-import {computed} from "vue";
+import {computed, ref} from "vue";
+import {useElementVisibility} from '@vueuse/core'
 
 
 
@@ -73,15 +74,20 @@ const bookmarkBtnSeverity = computed(() => {
     }
 })
 
+const target = ref(null)
+const targetIsVisible = useElementVisibility(target, {
+    threshold: 1,
+})
+
 </script>
 
 
 <template>
-    <Card class="border-primary-400 border w-[28em] m-2" >
+    <Card class="bg-transparent border w-[28em] m-2" :class="[targetIsVisible ? '' : 'border-primary-400']" ref="target">
         <template #header>
             <img alt="user header" class="w-full  object-cover aspect-[5/3]" :src="entry.imageUrl" />
         </template>
-        <template #title> <a class="hover:underline duration-300" :href="entry.link">{{entry.title}}</a> </template>
+        <template #title> <a class="break-words text-pretty hover:underline duration-300" :href="entry.link">{{entry.title}}</a> </template>
         <template #subtitle> {{basicFeedUrl}} <br> {{entry.pubDate}} </template>
         <template #content>
             <p class="m-0 line-clamp-6">
