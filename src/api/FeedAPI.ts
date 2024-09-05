@@ -38,6 +38,16 @@ class FeedAPI extends APIBase {
     }
 
     /**
+     * Marks all entries of a feed as read.
+     *
+     * @param {string} uuid - The UUID of the feed to mark as read.
+     * @returns {Promise<AxiosResponse>} - A promise that resolves to the Axios response object.
+     */
+    public markFeedAsRead = (uuid: string): Promise<AxiosResponse> => {
+        return this.httpClient.patch(`/feeds/${uuid}/read`);
+    }
+
+    /**
      * Retrieves feed entries from the server.
      *
      * @param {string} uuid - The UUID of the feed.

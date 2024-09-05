@@ -19,7 +19,7 @@ function setEntryView(view: EntryView) {
 
 <template>
     <div>
-        <div class="flex gap-2 text-white mx-8 ">
+        <div class="flex gap-2 text-white ">
             <PhListDashesDuotone :class="{'bg-gray-700':entryView == EntryView.LIST}"
                                  class="h-10 w-10 p-2 cursor-pointer rounded-lg my-2 hover:bg-gray-700"
                                  @click="setEntryView(EntryView.LIST)"/>

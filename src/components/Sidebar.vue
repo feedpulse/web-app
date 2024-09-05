@@ -44,6 +44,13 @@ const items = ref([
             feedStore.removeFeed(rightClickedFeed.value!.uuid)
         }
     },
+    {
+        label: 'Mark Feed as Read',
+        icon: 'pi pi-fw',
+        command: ($event: any) => {
+            feedStore.markFeedAsRead(rightClickedFeed.value!.uuid)
+        }
+    }
 ]);
 
 const onImageRightClick = (event: any, feed: Feed) => {
@@ -68,7 +75,7 @@ const onImageRightClick = (event: any, feed: Feed) => {
             <div class="flex flex-col text-white justify-center m-2">
                 <div class="flex-grow overflow-auto">
                     <span>Feeds</span>
-                    <SidebarFeedItem v-for="feed in feeds" :key="feed.uuid" :name="feed.title" :to="`/feed/${feed.uuid}`"
+                    <SidebarFeedItem v-for="feed in feeds" :key="feed.uuid" :name="feed.title" :unread-count="feed.unreadCount" :to="`/feed/${feed.uuid}`"
                                      @contextmenu="onImageRightClick($event, feed)"/>
                     <ContextMenu ref="menu" :model="items"/>
                 </div>
