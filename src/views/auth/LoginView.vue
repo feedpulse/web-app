@@ -83,7 +83,7 @@ onMounted(() => {
                 <InlineMessage v-if="errorMsg != ''">{{ errorMsg }}</InlineMessage>
             </Transition>
 
-            <Button class="w-full" label="Login" size="small" type="submit"/>
+            <Button severity="primary" class="w-full bg-primary-500" label="Login" size="small" type="submit"/>
             <Divider type="dotted" />
             <span class="text-surface-600">
                 Don't have an account?

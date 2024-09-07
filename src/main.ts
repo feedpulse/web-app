@@ -10,7 +10,7 @@ import PrimeVue from 'primevue/config';
 import Tooltip from 'primevue/tooltip';
 import ToastService  from "primevue/toastservice";
 // @ts-ignore
-import Lara from '@/presets/lara'; // https://github.com/primefaces/primevue-tailwind/issues/66
+import Aura from '@/presets/aura'; // https://github.com/primefaces/primevue-tailwind/issues/66
 
 const app = createApp(App)
 
@@ -18,7 +18,7 @@ app.use(createPinia())
 app.use(router)
 app.use(PrimeVue, {
     unstyled: true,
-    pt: Lara,
+    pt: Aura,
 });
 app.use(ToastService);
 app.directive('tooltip', Tooltip);

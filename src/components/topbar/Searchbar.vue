@@ -25,7 +25,7 @@ function redirectToSearch() {
         <InputGroupAddon class="h-10">
             <PhMagnifyingGlassDuotone class="text-white"/>
         </InputGroupAddon>
-        <InputText v-model="searchInput" @keyup.enter="redirectToSearch" invalid class="h-10 text-white grow" placeholder="Search" />
+        <InputText v-model="searchInput" @keyup.enter="redirectToSearch" class="h-10 text-white grow" placeholder="Search" />
     </InputGroup>
 </template>
 
