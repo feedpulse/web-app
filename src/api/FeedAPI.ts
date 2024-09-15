@@ -51,17 +51,19 @@ class FeedAPI extends APIBase {
      * Retrieves feed entries from the server.
      *
      * @param {string} uuid - The UUID of the feed.
+     * @param {boolean} onlyUnreadEntries - Whether to retrieve only unread entries.
      * @param {number} [size=20] - The maximum number of entries to retrieve. Defaults to 20.
      * @param {number} [page=0] - The number of entries to skip before retrieving. Defaults to 0.
      * @param {boolean} [sortOrder=false] - The sorting order of the entries. Defaults to false which is ascending order.
      * @returns {Promise<AxiosResponse<PageableResponse<Entry>>>} - A promise that resolves with the Axios response containing the array of entries.
      */
-    public getFeedEntries = (uuid: string, size: number = 20, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
+    public getFeedEntries = (uuid: string, onlyUnreadEntries: boolean, size: number = 20, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
         return this.httpClient.get<PageableResponse<Entry>>(`/feeds/${uuid}/entries`, {
             params: {
                 "size": size,
                 "page": page,
                 "sortOrder": sortOrder,
+                "onlyUnread": onlyUnreadEntries,
             }
         });
     }

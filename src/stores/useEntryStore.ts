@@ -12,9 +12,10 @@ export const useEntryStore = defineStore('entryStore', () => {
     const entries = ref<Entry[]>([])
     const pageable = ref<PageableResponse<Entry>|undefined>(undefined) // should this be propagated to the store or stay in the service layer?
     const noMoreEntries = computed(() => pageable.value?.links.next == null || pageable.value.links.next == '')
+    const onlyUnreadEntries = ref(false)
 
     const getEntriesForFeed = (feed: Feed) => {
-        ApiService.FeedAPI.getFeedEntries(feed.uuid).then((response) => {
+        ApiService.FeedAPI.getFeedEntries(feed.uuid, onlyUnreadEntries.value).then((response) => {
             entries.value = response.data.content
             pageable.value = response.data
         }).catch(() => entries.value = [])
@@ -26,8 +27,24 @@ export const useEntryStore = defineStore('entryStore', () => {
         }
     }
 
+    const getFavoriteEntries = () => {
+        ApiService.EntryAPI.getFavoriteEntries().then((response) => {
+            entries.value = response.data.content
+        }).catch((error) => {
+            entries.value = []
+        })
+    }
+
+    const getBookmarkedEntries = () => {
+        ApiService.EntryAPI.getBookmarkedEntries().then((response) => {
+            entries.value = response.data.content
+        }).catch((error) => {
+            entries.value = []
+        })
+    }
+
     const getEntries = () => {
-        ApiService.EntryAPI.getEntries().then((response) => {
+        ApiService.EntryAPI.getEntries(onlyUnreadEntries.value).then((response) => {
             entries.value = response.data.content
             pageable.value = response.data
         }).catch(() => entries.value = [])
@@ -99,22 +116,6 @@ export const useEntryStore = defineStore('entryStore', () => {
             }).catch((error) => {})
     };
 
-    const getFavoriteEntries = () => {
-        ApiService.EntryAPI.getFavoriteEntries().then((response) => {
-            entries.value = response.data.content
-        }).catch((error) => {
-            entries.value = []
-        })
-    }
-
-    const getBookmarkedEntries = () => {
-        ApiService.EntryAPI.getBookmarkedEntries().then((response) => {
-            entries.value = response.data.content
-        }).catch((error) => {
-            entries.value = []
-        })
-    }
-
     const clearEntries = () => {
         entries.value = []
     }
@@ -132,6 +133,7 @@ export const useEntryStore = defineStore('entryStore', () => {
         markEntryAsBookmarked,
         getFavoriteEntries,
         getBookmarkedEntries,
-        clearEntries
+        clearEntries,
+        onlyUnreadEntries
     }
 })

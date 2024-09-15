@@ -19,7 +19,10 @@ const {entries, loadMoreEntriesBool, noMoreEntries} = storeToRefs(entryStore)
 const {entryView} = storeToRefs(preferenceStore)
 
 
-onMounted(() => entryStore.getEntries())
+onMounted(() => {
+    entryStore.getEntries()
+    feedStore.selectedFeed = null
+})
 onBeforeUnmount(() => entryStore.clearEntries())
 
 const onLoadMore = () => entryStore.loadMoreEntries()

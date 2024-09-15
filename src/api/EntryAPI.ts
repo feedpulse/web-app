@@ -7,17 +7,19 @@ class EntryAPI extends APIBase {
 
     /**
      * Retrieves a list of entries from the server.
+     * @param {boolean} onlyUnreadEntries - Whether to retrieve only unread entries.
      * @param {number} [size=50] - The maximum number of entries to retrieve. Defaults to 20.
      * @param {number} [page=0] - The number of entries to skip before retrieving. Defaults to 0.
      * @param {boolean} [sortOrder=false] - The order in which the entries should be sorted. Defaults to false (ascending order).
      * @returns {Promise<AxiosResponse<Entry[]>>} - A promise that resolves to the HTTP response containing the list of entries.
      */
-    public getEntries = (size: number = 50, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
+    public getEntries = (onlyUnreadEntries: boolean = false, size: number = 50, page: number = 0, sortOrder: boolean = false): Promise<AxiosResponse<PageableResponse<Entry>>> => {
         return this.httpClient.get<PageableResponse<Entry>>("/entries", {
             params: {
                 "size": size,
                 "page": page,
                 "sortOrder": sortOrder,
+                "onlyUnread": onlyUnreadEntries,
             }
         });
     }
@@ -52,6 +54,12 @@ class EntryAPI extends APIBase {
             "read": read,
             "favorite": favorite,
             "bookmark": bookmark,
+        });
+    }
+
+    public readEntries(entries: Set<Entry>): Promise<AxiosResponse> {
+        return this.httpClient.put("/entries/read", {
+            ["entries"]: [...entries].map((entry) => entry.uuid),
         });
     }
 
