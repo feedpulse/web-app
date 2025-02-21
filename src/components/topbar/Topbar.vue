@@ -20,7 +20,8 @@ const feedStore = useFeedStore()
 const {selectedFeed} = storeToRefs(feedStore)
 
 function markRead() {
-    feedStore.markFeedAsRead(selectedFeed.value?.uuid)
+    if (!selectedFeed.value) return
+    feedStore.markFeedAsRead(selectedFeed.value.uuid)
     console.log("mark read")
 }
 
